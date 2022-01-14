@@ -1,5 +1,5 @@
 <template>
-  <editor :api-key="apiKey" :init="initConfig" output-format="html" :disabled="false" />
+  <editor v-model="content" :api-key="apiKey" :init="initConfig" output-format="html" :disabled="false" />
 </template>
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
@@ -14,7 +14,7 @@ const initConfig = {
   //   })
   // },
   browser_spellcheck: true,
-  plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
+  plugins: 'print preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable image help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
   //   tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
   //   tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
   //   tinydrive_google_drive_key: 'YOUR_GOOGLE_DRIVE_KEY',
@@ -29,7 +29,7 @@ const initConfig = {
     },
   },
   menubar: 'file edit view format tools table tc help',
-  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | media link anchor codesample | a11ycheck showcomments addcomment',
+  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | image media link anchor codesample | a11ycheck showcomments addcomment',
   //* customize fontselect dropdown */
   // font_formats: 'Arial=arial,helvetica,sans-serif; Courier New=courier new,courier,monospace; AkrutiKndPadmini=Akpdmi-n;微软雅黑;宋体',
   autosave_ask_before_unload: true,
@@ -95,10 +95,10 @@ const initConfig = {
   },
 
 }
-// const content = ref()
-// const pageBreak = '<p><!-- pagebreak --></p>'
-// watch(content, () => {
-//   console.log('content:', content.value)
-// })
+const content = ref()
+const pageBreak = '<p><!-- pagebreak --></p>'
+watch(content, () => {
+  console.log('content:', content.value)
+})
 
 </script>
