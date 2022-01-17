@@ -148,16 +148,18 @@
       </div>
       <section class="pageContainer">
         <div class="pageLayOutContainer">
-          <!-- <TinyMceEditor /> -->
-          <!-- <MavonEditorContainer /> -->
-          <!-- <CKEditorContainer /> -->
+          <n-skeleton v-if="!editorInit" height="100%" width="100%" />
+          <TinyMceEditor @init="handleInit" />
         </div>
       </section>
     </main>
   </div>
 </template>
 <script lang="ts" setup>
-
+const editorInit = ref(false)
+const handleInit = () => {
+  editorInit.value = true
+}
 </script>
 <style lang="scss" scoped>
 

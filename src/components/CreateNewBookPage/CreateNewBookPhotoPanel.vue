@@ -21,15 +21,7 @@
         />
       </div>
       <div class="photoPanelInnerPicTureWall">
-        <div class="image">
-          123
-        </div>
-        <div class="image">
-          123
-        </div>
-        <div class="image">
-          123
-        </div>
+        <create-new-book-photo-panel-picture-wall />
       </div>
       <div class="paginationContainer">
         <n-pagination v-model:page="page" :page-count="10" />
@@ -39,6 +31,8 @@
 </template>
 <script setup lang="ts">
 import { UploadFileInfo } from 'naive-ui'
+import { useFetch } from '@vueuse/core'
+const uploadBaseUrl = import.meta.env.VITE_UPLOADFILE_BASEURL
 const imageFilterOptions = [{
   label: '全部',
   key: '全部',
@@ -49,9 +43,16 @@ const imageFilterOptions = [{
 const handleUpdateValue = (...args: any) => {
   console.log(...args)
 }
-const handleChange = ({ file, fileList }: {file: UploadFileInfo; fileList: Array<UploadFileInfo>}) => {
-  console.log('file:', file.file)
+
+const { data: uploadLocalImageData, execute, post: postLocalImage } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
+const handleChange = ({ file }: { file: UploadFileInfo }) => {
+  const uploadData = new FormData()
+  uploadData.append('file', file.file)
+  uploadData.append('fileType', 'image')
+  postLocalImage(uploadData)
+  execute()
 }
+
 const page = ref(1)
 </script>
 <style lang="scss" scoped>

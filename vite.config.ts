@@ -11,6 +11,16 @@ import {
 } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      // with options
+      'http://192.168.15.126:8088': {
+        target: 'http://localhost:3333',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
