@@ -42,7 +42,7 @@ const handleUpdateValue = (...args: any) => {
   console.log(...args)
 }
 const uploadBaseUrl = import.meta.env.VITE_UPLOADFILE_BASEURL
-const { data, execute, post } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
+const { execute, post } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
 const handleChange = ({ file }: { file: UploadFileInfo }) => {
   const uploadData = new FormData()
   uploadData.append('file', file.file)
