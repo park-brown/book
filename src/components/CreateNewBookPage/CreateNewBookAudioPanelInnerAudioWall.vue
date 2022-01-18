@@ -1,6 +1,6 @@
 <template>
   <template v-if="!ready">
-    <n-skeleton v-for="(__,idx) in skeletonArray" :key="idx" width="160" height="40px" round />
+    <n-skeleton v-for="(idx) in skeletonArray" :key="idx" width="160" height="40px" round />
   </template>
   <div v-if="ready" class="videoWallItem">
     <figure v-for="item in data" :key="item.fileId" class="videoWallItem__figure">
@@ -16,11 +16,28 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { UseFetchReturn } from '@vueuse/core'
+import type { Ref } from 'vue-demi'
 const storageBaseUrl = import.meta.env.VITE_STORAGE_BASEURL
 const getFileByTypeBaseUrl = import.meta.env.VITE_GETFILEBYTYPE_BASEURL
 const skeletonArray = Array.from(Array(9).keys())
+interface Data {
+  createBy: string
+  createDate: Date
+  fileExtension: string
+  fileId: string
+  fileName: string
+  filePath: string
+  fileSize: number
+  fileType: string
+  id: string
+  isValid: boolean
+  md5: string
+  updateBy: string
+  updateDate: Date
+}
 
-const { data, post } = useFetch(`${getFileByTypeBaseUrl}/?fileType=audio`, {
+const { data, post }: {data: Ref<Data[]>; post: () => UseFetchReturn<T> } = useFetch(`${getFileByTypeBaseUrl}/?fileType=audio`, {
   immediate: true,
   afterFetch(ctx) {
     // Modifies the response data
@@ -35,6 +52,7 @@ tryOnMounted(() => {
 const ready = ref(false)
 whenever(data, () => {
   ready.value = true
+  console.log('data:', data.value)
 })
 </script>
   <style lang="scss" scoped>

@@ -23,6 +23,7 @@ specifiers:
   vite-plugin-pages: ^0.18.2
   vitest: ^0.0.44
   vue: ^3.2.24
+  vue-demi: ^0.12.1
   vue-router: ^4.0.12
 
 dependencies:
@@ -31,6 +32,7 @@ dependencies:
   '@vueuse/core': 7.2.2_vue@3.2.24
   '@vueuse/integrations': 7.5.3_vue@3.2.24
   vue: 3.2.24
+  vue-demi: 0.12.1_vue@3.2.24
   vue-router: 4.0.12_vue@3.2.24
 
 devDependencies:
