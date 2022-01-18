@@ -44,12 +44,12 @@ const handleUpdateValue = (...args: any) => {
   console.log(...args)
 }
 
-const { data: uploadLocalImageData, execute, post: postLocalImage } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
+const { data, execute, post } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
 const handleChange = ({ file }: { file: UploadFileInfo }) => {
   const uploadData = new FormData()
   uploadData.append('file', file.file)
   uploadData.append('fileType', 'image')
-  postLocalImage(uploadData)
+  post(uploadData)
   execute()
 }
 

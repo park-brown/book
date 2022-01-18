@@ -7,6 +7,7 @@
     output-format="html"
     :disabled="false"
     @init="handleInit"
+    @save-content="handleSaveContent"
   />
 </template>
 <script setup lang="ts">
@@ -45,7 +46,7 @@ const initConfig = {
   autosave_prefix: '{path}{query}-{id}-',
   autosave_restore_when_empty: false,
   autosave_retention: '2m',
-  save_onsavecallback() { console.log('Saved') },
+  // save_onsavecallback() { console.log('Saved') },
   image_advtab: true,
   // mediaembed_max_width: 600,
   link_list: [
@@ -86,7 +87,7 @@ const initConfig = {
 
 }
 const content = ref()
-const pageBreak = '<p><!-- pagebreak --></p>'
+// const pageBreak = '<p><!-- pagebreak --></p>'
 watch(content, () => {
   console.log('content:', content.value)
 })
@@ -95,6 +96,9 @@ const emit = defineEmits<{
 }>()
 const handleInit = () => {
   emit('init')
+}
+const handleSaveContent = () => {
+  console.log('saved')
 }
 </script>
 <style lang="'scss" scoped>
