@@ -7,7 +7,7 @@
         </n-p>
       </div>
       <div class="audioPanelInnerUploadContainer">
-        <n-upload accept="audio/*" :show-file-list="false">
+        <n-upload accept="audio/*" :show-file-list="false" @change="handleChange">
           <n-button type="info" class="uploadButton">
             上传本地音频
           </n-button>
@@ -20,16 +20,8 @@
           @update:value="handleUpdateValue"
         />
       </div>
-      <div class="audioPanelInnerPicTureWall">
-        <div class="image">
-          123
-        </div>
-        <div class="image">
-          123
-        </div>
-        <div class="image">
-          123
-        </div>
+      <div class="audioPanelInnerAudioWall">
+        <create-new-book-audio-panel-inner-audio-wall />
       </div>
       <div class="paginationContainer">
         <n-pagination v-model:page="page" :page-count="10" />
@@ -38,6 +30,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { UploadFileInfo } from 'naive-ui'
 const audioFilterOptions = [{
   label: '全部',
   key: '全部',
@@ -48,6 +41,18 @@ const audioFilterOptions = [{
 const handleUpdateValue = (...args: any) => {
   console.log(...args)
 }
+const uploadBaseUrl = import.meta.env.VITE_UPLOADFILE_BASEURL
+const { data, execute, post } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
+const handleChange = ({ file }: { file: UploadFileInfo }) => {
+  const uploadData = new FormData()
+  uploadData.append('file', file.file)
+  uploadData.append('fileType', 'audio')
+  post(uploadData)
+  execute()
+}
+watch(data, () => {
+  console.log('data:', data.value)
+})
 const page = ref(1)
 </script>
 <style lang="scss">
@@ -74,14 +79,14 @@ const page = ref(1)
   border-bottom: 1px solid $grey-400;
 }
 
-.audioPanelInnerPicTureWall {
+.audioPanelInnerAudioWall {
   width: 100%;
   height: 100%;
   overflow: hidden;
   display: grid;
-  grid-auto-rows: 9rem;
-  grid-template-columns: repeat(2, 16rem);
-  gap: $spacing * 4 $spacing * 4;
+  grid-auto-rows: 4rem;
+  grid-template-columns: repeat(1, 33.8rem);
+  gap: 2.1rem;
 }
 .audioPanelInnerFilterOptions {
   width: 100%;

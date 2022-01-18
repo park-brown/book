@@ -8,9 +8,11 @@
       </div>
       <div class="videoPanelInnerUploadContainer">
         <div class="uploadbuttonContainer">
-          <n-button type="info" class="uploadButton">
-            上传本地视频
-          </n-button>
+          <n-upload accept="video/*" :show-file-list="false" @change="handleChange">
+            <n-button type="info" class="uploadButton">
+              上传本地视频
+            </n-button>
+          </n-upload>
         </div>
         <div class="videoPanelInnerFilterOptions">
           <n-tree-select
@@ -19,25 +21,17 @@
             @update:value="handleUpdateValue"
           />
         </div>
-        <div class="videoPanelInnerPicTureWall">
-          <div class="video">
-            123
-          </div>
-          <div class="video">
-            123
-          </div>
-          <div class="video">
-            123
-          </div>
+        <div class="videoPanelInnerVideoWall">
+          <create-new-book-video-panel-video-wall />
         </div>
-
         <n-pagination v-model:page="page" :page-count="99" />
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-
+import { UploadFileInfo } from 'naive-ui'
+const uploadBaseUrl = import.meta.env.VITE_UPLOADFILE_BASEURL
 const videoFilterOptions = [{
   label: '全部',
   key: '全部',
@@ -49,7 +43,18 @@ const handleUpdateValue = (...args: any) => {
   console.log(...args)
 }
 const page = ref(1)
+const { data, execute, post } = useFetch(uploadBaseUrl, { immediate: false }).post().json()
 
+const handleChange = ({ file }: { file: UploadFileInfo }) => {
+  const uploadData = new FormData()
+  uploadData.append('file', file.file)
+  uploadData.append('fileType', 'video')
+  post(uploadData)
+  execute()
+}
+watch(data, () => {
+  console.log('data:', data.value)
+})
 </script>
 <style lang="scss" scoped>
 .videoPanelContainer {
@@ -84,7 +89,7 @@ const page = ref(1)
   border-bottom: 1px solid $grey-400;
 }
 
-.videoPanelInnerPicTureWall {
+.videoPanelInnerVideoWall {
   width: 100%;
   flex:1;
   overflow: hidden;
@@ -99,7 +104,12 @@ const page = ref(1)
 .uploadbuttonContainer {
   width:100%;
   display:flex;
-  justify-content:center
+  justify-content:center;
+  & ::v-deep(.n-upload-trigger){
+    width:100%;
+    display:flex;
+    justify-content:center
+  }
 }
 .paginationContainer {
   width:100%;
