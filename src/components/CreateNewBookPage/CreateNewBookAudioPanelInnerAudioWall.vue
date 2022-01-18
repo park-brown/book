@@ -34,7 +34,7 @@ tryOnMounted(() => {
 })
 const ready = ref(false)
 whenever(data, () => {
-  // ready.value = true
+  ready.value = true
 })
 </script>
   <style lang="scss" scoped>
