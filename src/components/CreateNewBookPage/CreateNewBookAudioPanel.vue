@@ -50,9 +50,7 @@ const handleChange = ({ file }: { file: UploadFileInfo }) => {
   post(uploadData)
   execute()
 }
-watch(data, () => {
-  console.log('data:', data.value)
-})
+
 const page = ref(1)
 </script>
 <style lang="scss">

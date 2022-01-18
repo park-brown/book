@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!ready" class="videoWallItem">
-    <n-skeleton v-for="(__,idx) in skeletonArray" :key="idx" width="160" height="90px" round />
-  </div>
+  <template v-if="!ready">
+    <n-skeleton v-for="(__,idx) in skeletonArray" :key="idx" width="160" height="90px" />
+  </template>
   <div v-if="ready" class="videoWallItem">
     <video controls width="160" height="90">
       <source
@@ -34,7 +34,6 @@ tryOnMounted(() => {
 const ready = ref(false)
 whenever(data, () => {
   ready.value = true
-  console.log('data:', data.value)
 })
 </script>
 <style lang="scss">

@@ -11,7 +11,7 @@
   />
 </template>
 <script setup lang="ts">
-import { Editor } from '@tinymce/tinymce-vue'
+import Editor from '@tinymce/tinymce-vue'
 import { bookStore } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
@@ -19,19 +19,14 @@ const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
 const initConfig = {
   selector: 'textarea#full-featured',
   language: 'zh_CN',
-  // setup(editor) {
-  //   editor.on('init', () => {
-  //     console.log('The Editor has initialized.')
-  //   })
-  // },
   browser_spellcheck: true,
-  plugins: 'print preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable image help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
+  plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable image help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
   //   tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
   //   tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
   //   tinydrive_google_drive_key: 'YOUR_GOOGLE_DRIVE_KEY',
   //   tinydrive_google_drive_client_id: 'YOUR_GOOGLE_DRIVE_CLIENT_ID',
   mobile: {
-    plugins: 'print preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
+    plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
   },
   menu: {
     tc: {
@@ -40,7 +35,7 @@ const initConfig = {
     },
   },
   menubar: 'file edit view format tools table tc help',
-  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview print save | image media link anchor codesample | a11ycheck showcomments addcomment',
+  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview print save | image media link anchor codesample | a11ycheck showcomments addcomment',
   //* customize fontselect dropdown */
   // font_formats: 'Arial=arial,helvetica,sans-serif; Courier New=courier new,courier,monospace; AkrutiKndPadmini=Akpdmi-n;微软雅黑;宋体',
   autosave_ask_before_unload: true,
@@ -103,7 +98,6 @@ const throttleSave = useThrottleFn(() => {
   uploadData.append('bookContent', content.value)
   // post(uploadData)
   // execute()
-  console.log('save')
 }, 30000)
 const handleInit = () => {
   emit('init')

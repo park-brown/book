@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!ready" class="videoWallItem">
-    <n-skeleton v-for="(__,idx) in skeletonArray" :key="idx" width="160" height="90px" round />
-  </div>
+  <template v-if="!ready">
+    <n-skeleton v-for="(__,idx) in skeletonArray" :key="idx" width="160" height="40px" round />
+  </template>
   <div v-if="ready" class="videoWallItem">
     <figure v-for="item in data" :key="item.fileId" class="videoWallItem__figure">
       <audio
@@ -34,17 +34,16 @@ tryOnMounted(() => {
 })
 const ready = ref(false)
 whenever(data, () => {
-  ready.value = true
-  console.log('data:', data.value)
+  // ready.value = true
 })
 </script>
-<style lang="scss" scoped>
-.videoWallItem__audio {
+  <style lang="scss" scoped>
+    .videoWallItem__audio {
     filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
     width: 100%;
     height: 24px;
-}
-.videoWallItem__figure {
+    }
+    .videoWallItem__figure {
     width:100%;
     height:100%;
     display: flex;
@@ -52,7 +51,7 @@ whenever(data, () => {
     justify-content: center;
     align-items: center;
     position: relative;
-}
-.videoWallItem__figureCaption{
-}
-</style>
+    }
+    .videoWallItem__figureCaption{
+    }
+  </style>
