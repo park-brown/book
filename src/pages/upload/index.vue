@@ -11,13 +11,8 @@
         <n-p class="h3">
           可选择创建方式，手动创建和上传创建
         </n-p>
-        <n-button size="large" :bordered="false" class="manualUpload__btn" @click="goToBlankPdf">
-          <i-akar-icons-book />
-          <n-p class="subtitle-1">
-            手动创建
-          </n-p>
-        </n-button>
       </div>
+      <UploadPageCreateBookDialog />
       <div class="dropUpload">
         <n-upload :on-change="handleUploadFileChange" :max="1">
           <n-upload-dragger>
@@ -57,14 +52,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
+
 const handleUploadFileChange = (info: Object) => {
   console.log(info)
 }
-const router = useRouter()
-const goToBlankPdf = () => {
-  router.push('/createNewBook')
-}
+
 </script>
 <style lang="scss" scoped>
 .container {
@@ -114,30 +106,6 @@ const goToBlankPdf = () => {
   gap: $spacing * 4;
   & .h3 {
     color: $grey-700;
-  }
-  &__btn {
-    color: $red-400;
-    border: 1px solid $red-400;
-    border-radius: $border-radius;
-    box-shadow: $shadow-1;
-    transition: all $duration-standard $easing-easeInOut;
-    &:hover,
-    &:focus,
-    &:active {
-      color: $red-600;
-      border: 1px solid $red-600;
-      box-shadow: $shadow-2;
-      transform: translateY($spacing * -0.5);
-    }
-    & ::v-deep(.n-button__content) {
-      & > * {
-        color: currentColor;
-      }
-      gap: $spacing * 3;
-    }
-    & ::v-deep(.n-base-wave) {
-      display: none;
-    }
   }
   @include desktop {
     max-width: 73.6rem;
@@ -192,4 +160,5 @@ const goToBlankPdf = () => {
     margin: 0 auto;
   }
 }
+
 </style>

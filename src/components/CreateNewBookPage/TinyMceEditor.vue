@@ -11,8 +11,11 @@
   />
 </template>
 <script setup lang="ts">
-import Editor from '@tinymce/tinymce-vue'
+import { Editor } from '@tinymce/tinymce-vue'
+import { bookStore } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
+const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
+
 const initConfig = {
   selector: 'textarea#full-featured',
   language: 'zh_CN',
@@ -88,18 +91,30 @@ const initConfig = {
 }
 const content = ref()
 // const pageBreak = '<p><!-- pagebreak --></p>'
-watch(content, () => {
-  console.log('content:', content.value)
-})
+
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
+const { data, isFetching, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false })
+//* *最多30s发送一次保存请求 */
+const throttleSave = useThrottleFn(() => {
+  const uploadData = new FormData()
+  uploadData.append('bookId', bookStore.value.bookId)
+  uploadData.append('bookContent', content.value)
+  // post(uploadData)
+  // execute()
+  console.log('save')
+}, 30000)
 const handleInit = () => {
   emit('init')
 }
 const handleSaveContent = () => {
-  console.log('saved')
+  // throttleSave()
+  console.log('save')
 }
+watch(data, () => {
+  console.log('data:', data.value)
+})
 </script>
 <style lang="'scss" scoped>
 

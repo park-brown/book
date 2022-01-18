@@ -16,10 +16,6 @@
                 </template>
               </SideBarTabList>
             </template>
-            <!--Tab pane content.-->
-            <!-- <template #default>
-              test
-            </template> -->
             <n-empty>
               <template #icon>
                 <n-icon>
@@ -156,10 +152,19 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useTitle, tryOnUnmounted } from '@vueuse/core'
+import { bookStore } from '~/composables/useBookStorage'
 const editorInit = ref(false)
 const handleInit = () => {
   editorInit.value = true
 }
+const documentTitle = useTitle()
+documentTitle.value = bookStore.value.bookName
+tryOnUnmounted(() => {
+  bookStore.value.bookId = ''
+  bookStore.value.bookName = ''
+})
+
 </script>
 <style lang="scss" scoped>
 
