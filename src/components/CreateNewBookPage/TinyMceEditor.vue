@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
 import { useMessage } from 'naive-ui'
+import { onBeforeRouteLeave } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
@@ -48,7 +49,7 @@ const initConfig = {
   autosave_ask_before_unload: true,
   save_enablewhendirty: true,
   autosave_interval: '30s',
-  autosave_prefix: '{path}{query}-{id}-',
+  autosave_prefix: 'tinymce-autosave-{path}{query}-{id}-',
   autosave_restore_when_empty: false,
   autosave_retention: '2m',
   // save_onsavecallback() { console.log('Saved') },
@@ -92,7 +93,7 @@ const initConfig = {
 
 }
 const content = ref()
-// const pageBreak = '<p><!-- pagebreak --></p>'
+const isLeaveRoute = ref(false)
 const message = useMessage()
 const emit = defineEmits<{
   (event: 'init'): void
@@ -100,12 +101,15 @@ const emit = defineEmits<{
 
 const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
 //* *最多3s发送一次保存请求 */
-const throttleSave = useThrottleFn(() => {
+const debouncedSave = useDebounceFn(() => {
+  /**
+   **tinymce save-content-event will call handler function on page leave, find a way to disable it */
+  if (isLeaveRoute.value) return
   const uploadData = new FormData()
   uploadData.append('bookId', bookStore.value.bookId)
   uploadData.append('bookName', bookStore.value.bookName)
   uploadData.append('bookContent', content.value)
-
+  console.log('unnecessary called')
   post(uploadData)
   execute()
 }, 3000)
@@ -113,7 +117,7 @@ const handleInit = () => {
   emit('init')
 }
 const handleSaveContent = () => {
-  throttleSave()
+  debouncedSave()
 }
 watch(data, () => {
   if (data.value.code === '200') {
@@ -137,6 +141,9 @@ tryOnMounted(() => {
   content.value = bookStore.value.bookContent
 })
 
+onBeforeRouteLeave(() => {
+  isLeaveRoute.value = true
+})
 </script>
 <style lang="'scss" scoped>
 

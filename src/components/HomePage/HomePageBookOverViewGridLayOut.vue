@@ -25,7 +25,6 @@ watch(data, () => {
   if (data.value.code === '200') {
     //* *数据接收成功 */
     ready.value = true
-    console.log('data:', data.value)
   }
 })
 </script>
