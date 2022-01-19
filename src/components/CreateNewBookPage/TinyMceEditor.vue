@@ -12,6 +12,7 @@
 </template>
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
+import { useMessage } from 'naive-ui'
 import { bookStore } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
@@ -92,33 +93,50 @@ const initConfig = {
 }
 const content = ref()
 // const pageBreak = '<p><!-- pagebreak --></p>'
-
+const message = useMessage()
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
-tryOnMounted(() => {
-  content.value = bookStore.value.bookContent
-  console.log('content:', content.value)
-})
-const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false })
-//* *最多30s发送一次保存请求 */
+
+const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
+//* *最多3s发送一次保存请求 */
 const throttleSave = useThrottleFn(() => {
   const uploadData = new FormData()
   uploadData.append('bookId', bookStore.value.bookId)
+  uploadData.append('bookName', bookStore.value.bookName)
   uploadData.append('bookContent', content.value)
+
   post(uploadData)
   execute()
-}, 30000)
+}, 3000)
 const handleInit = () => {
   emit('init')
 }
 const handleSaveContent = () => {
-  console.log('save')
   throttleSave()
 }
 watch(data, () => {
-  console.log('data:', data.value)
+  if (data.value.code === '200') {
+    //* *保存成功 */
+    message.success(
+      '保存成功',
+      { duration: 3000 },
+    )
+    content.value = data.value.data.bookContent
+    bookStore.value.bookContent = data.value.data.bookContent
+  }
+  else {
+    //* *保存失败 */
+    message.error(
+      '保存失败,请重试',
+      { duration: 3000 },
+    )
+  }
 })
+tryOnMounted(() => {
+  content.value = bookStore.value.bookContent
+})
+
 </script>
 <style lang="'scss" scoped>
 

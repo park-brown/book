@@ -16,7 +16,7 @@
       </n-button>
     </template>
     <template #footer>
-      <n-ellipsis class="footer h6">
+      <n-ellipsis class="footer h5">
         {{ bookName }}
       </n-ellipsis>
     </template>
@@ -25,6 +25,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
+
 const router = useRouter()
 interface Props {
   bookContent: string
@@ -33,9 +34,6 @@ interface Props {
 }
 const props = defineProps<Props>()
 const goToReadOnlyPage = () => {
-  bookStore.value.bookId = props.bookId
-  bookStore.value.bookName = props.bookName
-  bookStore.value.bookContent = props.bookContent
   router.push('readonly')
 }
 const goToEditablePage = () => {
@@ -82,6 +80,9 @@ const goToEditablePage = () => {
   & ::v-deep(.n-card__content) {
     flex: 0;
   }
+  & ::v-deep(.n-card__footer) {
+    text-align: center;
+  }
   & ::v-deep(.n-card__action) {
     position: absolute;
     top: 45%;
@@ -113,4 +114,5 @@ const goToEditablePage = () => {
     display: block;
   }
 }
+
 </style>

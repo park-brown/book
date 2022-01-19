@@ -28,7 +28,11 @@
       </div>
       <template #footer>
         <div class="footerAction">
-          <n-button type="info" :disabled="title==='' || isFetching === true" @click="handleConfirm">
+          <n-button
+            type="info"
+            :disabled="title === '' || isFetching === true"
+            @click="handleConfirm"
+          >
             确定
           </n-button>
           <n-button type="error" @click="showModal = false">
@@ -41,26 +45,21 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useMessage } from 'naive-ui'
 import { bookStore } from '~/composables/useBookStorage'
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
 const router = useRouter()
+const message = useMessage()
 const goToCreateNewBook = () => {
   router.push('/createNewBook')
 }
 const { isFetching, data, execute, post } = useFetch(insertBookInfoBaseUrl, {
   immediate: false,
-  afterFetch(ctx) {
-  // Modifies the response data
-    console.log('context:', ctx)
-    ctx.data = JSON.parse(ctx.data)
-    return ctx.data
-  },
-})
+}).json()
 const title = ref<string>('')
 //* *最多3s一次 */
 const debouncedFn = useDebounceFn(() => {
   const uploadData = new FormData()
-  console.log('title:', title.value)
   uploadData.append('bookName', title.value)
   post(uploadData)
   execute()
@@ -70,47 +69,60 @@ const handleConfirm = () => {
 }
 watch(data, () => {
   //* *success case */
-  if (isDefined(data)) {
-    bookStore.value.bookId = data.value.bookId
-    bookStore.value.bookName = data.value.bookName
+  if (data.value.code === '200') {
+    message.success('创建成功，进入编辑页面',
+      { duration: 3000 })
+    bookStore.value.bookId = data.value.data.bookId
+    bookStore.value.bookName = data.value.data.bookName
+    bookStore.value.bookContent = ''
     goToCreateNewBook()
   }
   else {
     //* *reject case */
+    message.error('创建失败，请重试',
+      { duration: 3000 })
   }
 })
 const showModal = ref(false)
+//* life cycle */
+
+tryOnMounted(() => {
+  bookStore.value.bookId = ''
+  bookStore.value.bookName = ''
+  bookStore.value.bookContent = ''
+})
+
 </script>
 <style lang="scss" scoped>
-  .manualUpload__btn {
-    color: $red-400;
-    border: 1px solid $red-400;
-    border-radius: $border-radius;
-    box-shadow: $shadow-1;
-    transition: all $duration-standard $easing-easeInOut;
-    &:hover,
-    &:focus,
-    &:active {
-      color: $red-600;
-      border: 1px solid $red-600;
-      box-shadow: $shadow-2;
-      transform: translateY($spacing * -0.5);
-    }
-    & ::v-deep(.n-button__content) {
-      & > * {
-        color: currentColor;
-      }
-      gap: $spacing * 3;
-    }
-    & ::v-deep(.n-base-wave) {
-      display: none;
-    }
+.manualUpload__btn {
+  color: $red-400;
+  border: 1px solid $red-400;
+  border-radius: $border-radius;
+  box-shadow: $shadow-1;
+  transition: all $duration-standard $easing-easeInOut;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $red-600;
+    border: 1px solid $red-600;
+    box-shadow: $shadow-2;
+    transform: translateY($spacing * -0.5);
   }
+  & ::v-deep(.n-button__content) {
+    & > * {
+      color: currentColor;
+    }
+    gap: $spacing * 3;
+  }
+  & ::v-deep(.n-base-wave) {
+    display: none;
+  }
+}
 .footerAction {
-  width:100%;
-  display:flex;
+  width: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap:$spacing * 4;
+  gap: $spacing * 4;
 }
 </style>

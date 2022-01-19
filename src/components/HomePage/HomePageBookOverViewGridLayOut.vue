@@ -12,13 +12,6 @@
         />
       </div>
     </n-scrollbar>
-    <!-- <BookOverViewGridCard
-          v-for="item in data.data"
-          :key="item.bookId"
-          :book-name="item.bookName"
-          :book-content="item.bookContent"
-          :book-id="item.bookId"
-        /> -->
   </template>
 </template>
 
