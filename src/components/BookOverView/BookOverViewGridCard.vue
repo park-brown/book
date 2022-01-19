@@ -8,23 +8,42 @@
       >
     </template>
     <template #action>
-      <n-button class="read" :bordered="false">
+      <n-button class="read" :bordered="false" @click="goToReadOnlyPage">
         阅读
       </n-button>
-      <n-button class="edit" :bordered="false">
+      <n-button class="edit" :bordered="false" @click="goToEditablePage">
         编辑
       </n-button>
     </template>
     <template #footer>
       <n-ellipsis class="footer h6">
-        《唐诗宋词300首全集
-        图文精编版》电子版
+        {{ bookName }}
       </n-ellipsis>
     </template>
   </n-card>
 </template>
 <script lang="ts" setup>
-
+import { useRouter } from 'vue-router'
+import { bookStore } from '~/composables/useBookStorage'
+const router = useRouter()
+interface Props {
+  bookContent: string
+  bookId: string
+  bookName: string
+}
+const props = defineProps<Props>()
+const goToReadOnlyPage = () => {
+  bookStore.value.bookId = props.bookId
+  bookStore.value.bookName = props.bookName
+  bookStore.value.bookContent = props.bookContent
+  router.push('readonly')
+}
+const goToEditablePage = () => {
+  bookStore.value.bookId = props.bookId
+  bookStore.value.bookName = props.bookName
+  bookStore.value.bookContent = props.bookContent
+  router.push('editable')
+}
 </script>
 <style lang="scss" scoped>
 .gridItem {

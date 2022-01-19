@@ -155,6 +155,19 @@ const openGrid = () => {
   isGridOpen.value = true
   isFlexOpen.value = false
 }
+const ready = ref(false)
+const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
+// const { data, get } = useFetch(getBookInfoListUrl).json()
+// tryOnMounted(() => {
+//   get()
+// })
+// watch(data, () => {
+//   console.log('data:', data.value)
+//   if (data.value.code === '200') {
+//     //* *数据接收成功 */
+//     ready.value = true
+//   }
+// })
 </script>
 <style lang="scss" scoped>
 .container {

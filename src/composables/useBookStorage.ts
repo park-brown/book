@@ -1,1 +1,1 @@
-export const bookStore = useStorage('book-store', { bookId: '', bookName: '' })
+export const bookStore = useStorage('book-store', { bookId: '', bookName: '', bookContent: '' })

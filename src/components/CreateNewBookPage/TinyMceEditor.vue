@@ -15,7 +15,13 @@ import Editor from '@tinymce/tinymce-vue'
 import { bookStore } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
-
+// const test = Array.from(Array(2).keys()).map((idx) => {
+//   return {
+//     key: Math.random() * Date.now(),
+//     content: '',
+//     page: idx + 1,
+//   }
+// })
 const initConfig = {
   selector: 'textarea#full-featured',
   language: 'zh_CN',
@@ -90,21 +96,25 @@ const content = ref()
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
-const { data, isFetching, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false })
+tryOnMounted(() => {
+  content.value = bookStore.value.bookContent
+  console.log('content:', content.value)
+})
+const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false })
 //* *最多30s发送一次保存请求 */
 const throttleSave = useThrottleFn(() => {
   const uploadData = new FormData()
   uploadData.append('bookId', bookStore.value.bookId)
   uploadData.append('bookContent', content.value)
-  // post(uploadData)
-  // execute()
+  post(uploadData)
+  execute()
 }, 30000)
 const handleInit = () => {
   emit('init')
 }
 const handleSaveContent = () => {
-  // throttleSave()
   console.log('save')
+  throttleSave()
 }
 watch(data, () => {
   console.log('data:', data.value)
