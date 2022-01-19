@@ -145,6 +145,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+
 const isGridOpen = ref(true)
 const isFlexOpen = ref(false)
 const openFlex = () => {

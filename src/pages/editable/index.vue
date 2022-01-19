@@ -152,12 +152,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-
+import { onBeforeRouteLeave } from 'vue-router'
+import { bookStore } from '~/composables/useBookStorage'
 const editorInit = ref(false)
 const handleInit = () => {
   editorInit.value = true
 }
-
+//* * clean up bookStore before route leave on page editable */
+onBeforeRouteLeave((to, from) => {
+  bookStore.value.bookId = ''
+  bookStore.value.bookName = ''
+  bookStore.value.bookContent = ''
+})
 </script>
 <style lang="scss" scoped>
 
