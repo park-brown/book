@@ -95,6 +95,7 @@ const initConfig = {
 const content = ref()
 const isLeaveRoute = ref(false)
 const message = useMessage()
+
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
@@ -109,7 +110,6 @@ const debouncedSave = useDebounceFn(() => {
   uploadData.append('bookId', bookStore.value.bookId)
   uploadData.append('bookName', bookStore.value.bookName)
   uploadData.append('bookContent', content.value)
-  console.log('unnecessary called')
   post(uploadData)
   execute()
 }, 10000)
@@ -119,6 +119,7 @@ const handleInit = () => {
 const handleSaveContent = () => {
   debouncedSave()
 }
+
 watch(data, () => {
   if (data.value.code === '200') {
     //* *保存成功 */
