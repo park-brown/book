@@ -16,18 +16,7 @@
                 </template>
               </SideBarTabList>
             </template>
-            <n-empty>
-              <template #icon>
-                <n-icon>
-                  <i-uil-jackhammer />
-                </n-icon>
-              </template>
-              <template #extra>
-                <n-p class="h3">
-                  页面正在开发...🚀
-                </n-p>
-              </template>
-            </n-empty>
+            <CreateNewBookPageManagePanel />
           </n-tab-pane>
           <n-tab-pane name="photo">
             <template #tab>
