@@ -46,7 +46,6 @@
       </div>
       <div class="footer">
         <n-button>保存</n-button>
-        <n-button>取消</n-button>
       </div>
     </div>
   </div>
