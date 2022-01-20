@@ -1,6 +1,6 @@
 <template>
   <editor
-    v-model="content"
+    v-model="bookStore.bookContent[activePageNumber - 1].content"
     class="tinyEditor"
     :api-key="apiKey"
     :init="initConfig"
@@ -14,16 +14,10 @@
 import Editor from '@tinymce/tinymce-vue'
 import { useMessage } from 'naive-ui'
 import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore } from '~/composables/useBookStorage'
+import { bookStore, activePageNumber } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
-// const test = Array.from(Array(2).keys()).map((idx) => {
-//   return {
-//     key: Math.random() * Date.now(),
-//     content: '',
-//     page: idx + 1,
-//   }
-// })
+
 const initConfig = {
   selector: 'textarea#full-featured',
   language: 'zh_CN',
@@ -92,14 +86,14 @@ const initConfig = {
   },
 
 }
-const content = ref()
+// const content = ref()
 const isLeaveRoute = ref(false)
 const message = useMessage()
 
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
-
+const content = ref('')
 const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
 //* *最多10s发送一次保存请求 */
 const debouncedSave = useDebounceFn(() => {
@@ -109,7 +103,7 @@ const debouncedSave = useDebounceFn(() => {
   const uploadData = new FormData()
   uploadData.append('bookId', bookStore.value.bookId)
   uploadData.append('bookName', bookStore.value.bookName)
-  uploadData.append('bookContent', content.value)
+  uploadData.append('bookContent', JSON.stringify(JSON.parse(localStorage.getItem('book-store')).bookContent))
   post(uploadData)
   execute()
 }, 10000)
@@ -137,9 +131,6 @@ watch(data, () => {
       { duration: 3000 },
     )
   }
-})
-tryOnMounted(() => {
-  content.value = bookStore.value.bookContent
 })
 
 onBeforeRouteLeave(() => {

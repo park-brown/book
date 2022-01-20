@@ -96,6 +96,7 @@ declare module 'vue' {
     PdfViewer: typeof import('./src/components/PdfView/PdfViewer.vue')['default']
     QuillEditorContainer: typeof import('./src/components/CreateNewBookPage/QuillEditorContainer.vue')['default']
     SideBarTabList: typeof import('./src/components/CreateNewBookPage/SideBarTabList.vue')['default']
+    ThumbNailItem: typeof import('./src/components/CreateNewBookPage/pageManager/ThumbNailItem.vue')['default']
     TinyMceEditor: typeof import('./src/components/CreateNewBookPage/TinyMceEditor.vue')['default']
     UploadLocalVideoModal: typeof import('./src/components/CreateNewBookPage/UploadLocalVideoModal.vue')['default']
     UploadPageAppbar: typeof import('./src/components/UploadPage/UploadPageAppbar.vue')['default']

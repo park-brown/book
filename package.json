@@ -12,6 +12,7 @@
     "@tinymce/tinymce-vue": "^4",
     "@vueuse/core": "^7.2.2",
     "@vueuse/integrations": "^7.5.3",
+    "pinia": "^2.0.9",
     "vue": "^3.2.24",
     "vue-demi": "^0.12.1",
     "vue-router": "^4.0.12"

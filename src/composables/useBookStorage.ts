@@ -1,12 +1,16 @@
 
 export const bookStore = useStorage('book-store', { bookId: '', bookName: '', bookContent: '' })
-const content = Array.from(Array(1).keys()).map((idx) => {
-  return {
-    key: Math.random() * Date.now(),
-    page: idx + 1,
-    content: '',
-  }
-})
-const min = ref(0)
-const max = ref(content.length - 1)
-const pageIndex = useClamp(0, min, max)
+export const insertPageAfter = () => {
+  //* * get all information about current bookContent */
+  const currentBookContent = bookStore.value.bookContent.slice()
+  //* *get current array length */
+  const currentPageCount = bookStore.value.bookContent.length
+  //* *set next bookContent */
+  const nextBookContent = [...currentBookContent, { key: Math.random() * Date.now(), page: currentPageCount + 1, content: '' }]
+  bookStore.value.bookContent = nextBookContent
+}
+//* *keep track of active page number in here */
+export const activePageNumber = ref(1)
+export const readActivePageNumber = (page) => {
+  activePageNumber.value = page
+}
