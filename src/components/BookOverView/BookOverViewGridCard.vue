@@ -34,6 +34,9 @@ interface Props {
 }
 const props = defineProps<Props>()
 const goToReadOnlyPage = () => {
+  bookStore.value.bookId = props.bookId
+  bookStore.value.bookName = props.bookName
+  bookStore.value.bookContent = props.bookContent
   router.push('readonly')
 }
 const goToEditablePage = () => {

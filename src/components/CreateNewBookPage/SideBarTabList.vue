@@ -1,7 +1,6 @@
 <template>
   <div class="listItem">
     <slot name="icon" />
-
     <div class="listItem__text">
       <n-p class="body-2 listItem__text--paragraph">
         <slot name="text" />

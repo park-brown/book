@@ -100,7 +100,7 @@ const emit = defineEmits<{
 }>()
 
 const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
-//* *最多3s发送一次保存请求 */
+//* *最多10s发送一次保存请求 */
 const debouncedSave = useDebounceFn(() => {
   /**
    **tinymce save-content-event will call handler function on page leave, find a way to disable it */
@@ -112,7 +112,7 @@ const debouncedSave = useDebounceFn(() => {
   console.log('unnecessary called')
   post(uploadData)
   execute()
-}, 3000)
+}, 10000)
 const handleInit = () => {
   emit('init')
 }

@@ -75,7 +75,9 @@ watch(data, () => {
     bookStore.value.bookId = data.value.data.bookId
     bookStore.value.bookName = data.value.data.bookName
     bookStore.value.bookContent = ''
-    goToCreateNewBook()
+    setTimeout(() => {
+      goToCreateNewBook()
+    }, 1000)
   }
   else {
     //* *reject case */

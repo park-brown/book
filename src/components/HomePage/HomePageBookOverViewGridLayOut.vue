@@ -1,4 +1,18 @@
 <template>
+  <!--失败渲染404-->
+  <template v-if="error">
+    <n-result
+      status="404"
+      title="404 Not Found"
+      description="生活总有荒诞"
+    >
+      <template #footer>
+        <n-button @click="post">
+          重试
+        </n-button>
+      </template>
+    </n-result>
+  </template>
   <!--接收数据渲染-->
   <template v-if="ready">
     <n-scrollbar style="max-height: 522px;">
@@ -18,13 +32,17 @@
 <script lang="ts" setup>
 
 const ready = ref(false)
+const error = ref(false)
 const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
-const { data } = useFetch(getBookInfoListUrl).json()
+const { data, post } = useFetch(getBookInfoListUrl).json()
 
 watch(data, () => {
   if (data.value.code === '200') {
     //* *数据接收成功 */
     ready.value = true
+  }
+  else {
+    error.value = true
   }
 })
 </script>
