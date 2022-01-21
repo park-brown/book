@@ -1,6 +1,6 @@
 <template>
   <editor
-    v-model="bookStore.bookContent[activePageNumber - 1].content"
+    v-model="bookStore.bookContent[currentPage - 1].content"
     class="tinyEditor"
     :api-key="apiKey"
     :init="initConfig"
@@ -14,7 +14,7 @@
 import Editor from '@tinymce/tinymce-vue'
 import { useMessage } from 'naive-ui'
 import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore, activePageNumber } from '~/composables/useBookStorage'
+import { bookStore, currentPage } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
 
@@ -86,7 +86,6 @@ const initConfig = {
   },
 
 }
-// const content = ref()
 const isLeaveRoute = ref(false)
 const message = useMessage()
 
@@ -95,7 +94,7 @@ const emit = defineEmits<{
 }>()
 const content = ref('')
 const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
-//* *最多10s发送一次保存请求 */
+//* *最多1s发送一次保存请求 */
 const debouncedSave = useDebounceFn(() => {
   /**
    **tinymce save-content-event will call handler function on page leave, find a way to disable it */
@@ -106,7 +105,7 @@ const debouncedSave = useDebounceFn(() => {
   uploadData.append('bookContent', JSON.stringify(JSON.parse(localStorage.getItem('book-store')).bookContent))
   post(uploadData)
   execute()
-}, 10000)
+}, 1000)
 const handleInit = () => {
   emit('init')
 }
@@ -121,7 +120,7 @@ watch(data, () => {
       '保存成功',
       { duration: 3000 },
     )
-    content.value = data.value.data.bookContent
+    //* * save backend stored content data to localStorage for persistence */
     bookStore.value.bookContent = data.value.data.bookContent
   }
   else {
@@ -132,9 +131,9 @@ watch(data, () => {
     )
   }
 })
-
 onBeforeRouteLeave(() => {
   isLeaveRoute.value = true
+  console.log('leave')
 })
 </script>
 <style lang="'scss" scoped>

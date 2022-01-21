@@ -74,7 +74,7 @@ watch(data, () => {
       { duration: 3000 })
     bookStore.value.bookId = data.value.data.bookId
     bookStore.value.bookName = data.value.data.bookName
-    bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
+    // bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
     setTimeout(() => {
       goToCreateNewBook()
     }, 1000)
@@ -87,12 +87,6 @@ watch(data, () => {
 })
 const showModal = ref(false)
 //* life cycle */
-
-tryOnMounted(() => {
-  bookStore.value.bookId = ''
-  bookStore.value.bookName = ''
-  bookStore.value.bookContent = ''
-})
 
 </script>
 <style lang="scss" scoped>

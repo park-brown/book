@@ -1,14 +1,14 @@
 <template>
-  <div class="thumbnailContainer" @click="selectActivePage">
+  <div class="thumbnailContainer">
     <div class="thumbnail" />
-    <label class="pageLabel">{{ page }}</label>
+    <label class="pageLabel">{{ 1 }}</label>
     <div class="thumbnailControlsOverlay">
       <n-button :bordered="false" @click="toggle">
         <i-akar-icons-more-horizontal />
       </n-button>
-      <div v-if="value" ref="target" class="controlOptions">
+      <div v-if="show" ref="target" class="controlOptions">
         <n-p>添加页面</n-p>
-        <div class="controlOptionItem" @click="addNewPageAfterCurrent">
+        <div class="controlOptionItem">
           <i-gg-insert-before-r />
           <n-p>在下方插入空白页</n-p>
         </div>
@@ -23,18 +23,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const [value, toggle] = useToggle()
-const target = ref()
-onClickOutside(target, () => {
-  toggle()
-})
-const addNewPageAfterCurrent = () => {
-  value.value = false
-  insertPageAfter()
-}
-const selectActivePage = () => {
-  readActivePageNumber(props.page)
-}
+
 </script>
 <style lang="scss" scope>
 .thumbnailContainer {

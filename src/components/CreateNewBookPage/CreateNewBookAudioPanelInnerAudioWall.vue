@@ -38,7 +38,6 @@ tryOnMounted(() => {
 const ready = ref(false)
 whenever(data, () => {
   ready.value = true
-  console.log('data:', data.value)
 })
 </script>
   <style lang="scss" scoped>

@@ -1,16 +1,16 @@
 
-export const bookStore = useStorage('book-store', { bookId: '', bookName: '', bookContent: '' })
-export const insertPageAfter = () => {
+export const bookStore = useStorage('book-store', { bookId: '', bookName: '', bookContent: [{ key: Math.random() * Date.now(), page: 1, content: '' }] })
+
+export const pageCount = ref(1)
+export const currentPage = ref(1)
+export const addNewPage = () => {
   //* * get all information about current bookContent */
-  const currentBookContent = bookStore.value.bookContent.slice()
+
+  const currentBookStore = JSON.parse(localStorage.getItem('book-store'))
   //* *get current array length */
-  const currentPageCount = bookStore.value.bookContent.length
-  //* *set next bookContent */
-  const nextBookContent = [...currentBookContent, { key: Math.random() * Date.now(), page: currentPageCount + 1, content: '' }]
+  const currentPageCount = currentBookStore.bookContent.length
+  //* *set next bookContent *//
+  const nextBookContent = [...currentBookStore.bookContent, { key: Math.random() * Date.now(), page: currentPageCount + 1, content: '' }]
   bookStore.value.bookContent = nextBookContent
-}
-//* *keep track of active page number in here */
-export const activePageNumber = ref(1)
-export const readActivePageNumber = (page) => {
-  activePageNumber.value = page
+  pageCount.value = currentBookStore.bookContent.length + 1
 }

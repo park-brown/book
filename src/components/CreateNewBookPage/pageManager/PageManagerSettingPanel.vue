@@ -26,7 +26,7 @@
           <n-upload
             class="upload"
             :max="1"
-            show-file-list="false"
+            :show-file-list="false"
             list-type="image-card"
           >
             点击上传

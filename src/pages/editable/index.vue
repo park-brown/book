@@ -151,7 +151,7 @@ const handleInit = () => {
 onBeforeRouteLeave((to, from) => {
   bookStore.value.bookId = ''
   bookStore.value.bookName = ''
-  bookStore.value.bookContent = ''
+  bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
 })
 </script>
 <style lang="scss" scoped>

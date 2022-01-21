@@ -1,4 +1,13 @@
 <template>
+  <!--请求渲染spiner-->
+  <template v-if="isFetching">
+    <n-spin :show="isFetching">
+      <n-alert title="获取数据" type="info" />
+      <template #description>
+        请稍等
+      </template>
+    </n-spin>
+  </template>
   <!--失败渲染404-->
   <template v-if="error">
     <n-result
@@ -6,11 +15,11 @@
       title="404 Not Found"
       description="生活总有荒诞"
     >
-      <template #footer>
-        <n-button @click="post">
+      <!-- <template #footer>
+        <n-button @click="">
           重试
         </n-button>
-      </template>
+      </template> -->
     </n-result>
   </template>
   <!--接收数据渲染-->
@@ -34,17 +43,29 @@
 const ready = ref(false)
 const error = ref(false)
 const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
-const { data, post } = useFetch(getBookInfoListUrl).json()
+const { isFetching, isFinished, data } = useFetch(getBookInfoListUrl, {
+  afterFetch(ctx) {
+    const parseBookContent = ctx.data.data.slice().map((item) => {
+      return {
+        ...item,
+        bookContent: JSON.parse(item.bookContent),
+      }
+    })
 
-watch(data, () => {
-  if (data.value.code === '200') {
-    //* *数据接收成功 */
-    ready.value = true
-  }
-  else {
-    error.value = true
-  }
+    ctx.data.data = parseBookContent
+    return ctx
+  },
+}).json()
+
+watch(isFinished, () => {
+  // //* *数据接收失败 */
+  if (!isDefined(data))
+    return error.value = true
+  // //* *数据接收成功 */
+  ready.value = true
+  error.value = false
 })
+
 </script>
 <style lang="scss" scoped>
 

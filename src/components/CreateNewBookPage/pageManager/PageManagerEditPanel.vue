@@ -1,13 +1,21 @@
 <template>
   <div class="pageManagerEditPanelContainer">
-    <ThumbNailItem v-for="item in bookContent" :key="item.key" :page="item.page" />
+    <n-button type="info" @click="addNewPage">
+      添加页面
+    </n-button>
+    <n-pagination v-model:page="page" class="paginationContainer" :page-count="pageCount" show-quick-jumper />
   </div>
 </template>
 <script setup lang="ts">
-import { bookStore } from '~/composables/useBookStorage'
+import { bookStore, addNewPage, pageCount, currentPage } from '~/composables/useBookStorage'
+const page = ref(1)
 
-const bookContent = bookStore.value.bookContent
-
+watch(page, () => {
+  currentPage.value = page.value
+})
+tryOnMounted(() => {
+  pageCount.value = bookStore.value.bookContent.length
+})
 </script>
 <style lang="scss" scoped>
 .pageManagerEditPanelContainer {
@@ -21,5 +29,14 @@ const bookContent = bookStore.value.bookContent
     justify-content:flex-start;
     gap:$spacing*4;
 }
-
+.paginationContainer {
+  width:100%;
+  position:relative;
+  & ::v-deep(.n-pagination-quick-jumper) {
+      position:absolute;
+      bottom:-40px;
+      left:50%;
+      transform:translateX(-50%)
+  }
+}
 </style>

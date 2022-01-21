@@ -18,7 +18,7 @@
     <div class="editorContainer">
       <n-skeleton v-if="!editorReady" height="800px" width="100%" />
       <editor
-        v-model="singlePageContent"
+        v-model="bookStore.bookContent[pageIndex - 1].content"
         :api-key="apiKey"
         :init="initConfig"
         output-format="html"
@@ -31,18 +31,11 @@
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore } from '~/composables/useBookStorage'
+import { bookStore, pageCount } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
-const content = Array.from(Array(4).keys()).map((idx) => {
-  return {
-    key: Math.random() * Date.now(),
-    page: idx + 1,
-    content: '',
-  }
-})
 
 const min = ref(0)
-const max = ref(content.length - 1)
+const max = ref(pageCount)
 const pageIndex = useClamp(0, min, max)
 const editorReady = ref(false)
 const handleInit = () => {
@@ -54,8 +47,7 @@ const prev = () => {
 const next = () => {
   pageIndex.value = pageIndex.value + 1
 }
-//* * simulate single page content read */
-const singlePageContent = ref('')
+
 const initConfig = {
   selector: 'textarea#readOnly',
   language: 'zh_CN',
@@ -66,12 +58,12 @@ const initConfig = {
 
 }
 tryOnMounted(() => {
-  singlePageContent.value = bookStore.value.bookContent
+  pageCount.value = bookStore.value.bookContent.length
 })
 onBeforeRouteLeave(() => {
-  bookStore.value.bookContent = ''
   bookStore.value.bookName = ''
   bookStore.value.bookId = ''
+  bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
 })
 </script>
 <style lang="scss" scoped>

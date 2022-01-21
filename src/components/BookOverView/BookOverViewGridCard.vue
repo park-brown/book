@@ -27,8 +27,13 @@ import { useRouter } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
 
 const router = useRouter()
+interface BookInfo {
+  content: string
+  key: number
+  page: number
+}
 interface Props {
-  bookContent: string
+  bookContent: BookInfo[]
   bookId: string
   bookName: string
 }
@@ -37,8 +42,9 @@ const goToReadOnlyPage = () => {
   bookStore.value.bookId = props.bookId
   bookStore.value.bookName = props.bookName
   bookStore.value.bookContent = props.bookContent
-  router.push('readonly')
+  router.push('/readonly/flipBook')
 }
+
 const goToEditablePage = () => {
   bookStore.value.bookId = props.bookId
   bookStore.value.bookName = props.bookName
