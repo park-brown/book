@@ -2,13 +2,13 @@
   <div class="pageContainer">
     <div class="bottomNavigationBar">
       <ul class="bottomNavigationBarInner">
-        <n-button @click="prev">
+        <n-button :bordered="false" @click="prev">
           <i-akar-icons-arrow-left />
         </n-button>
-        <n-button @click="next">
+        <n-button :bordered="false" @click="next">
           <i-akar-icons-arrow-right />
         </n-button>
-        <n-statistic :value="36">
+        <n-statistic :value="pageCount">
           <template #prefix>
             {{ pageIndex + 1 }} /
           </template>
@@ -18,7 +18,7 @@
     <div class="editorContainer">
       <n-skeleton v-if="!editorReady" height="800px" width="100%" />
       <editor
-        v-model="bookStore.bookContent[pageIndex - 1].content"
+        v-model="bookStore.bookContent[pageIndex].content"
         :api-key="apiKey"
         :init="initConfig"
         output-format="html"

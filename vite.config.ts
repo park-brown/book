@@ -12,14 +12,7 @@ import {
 
 export default defineConfig({
   server: {
-    proxy: {
-      // with options
-      'http://192.168.15.126:8088': {
-        target: 'http://localhost:3333',
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
-      },
-    },
+    host: '10.53.0.6',
   },
   resolve: {
     alias: {

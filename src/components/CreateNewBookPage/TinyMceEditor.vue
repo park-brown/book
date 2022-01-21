@@ -133,8 +133,9 @@ watch(data, () => {
 })
 onBeforeRouteLeave(() => {
   isLeaveRoute.value = true
-  console.log('leave')
 })
+//* *keep track of the height of the editor content body */
+
 </script>
 <style lang="'scss" scoped>
 
