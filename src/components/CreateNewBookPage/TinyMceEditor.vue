@@ -36,8 +36,9 @@ const initConfig = {
       items: 'addcomment showcomments deleteallconversations',
     },
   },
-  menubar: 'edit view format tools tc help',
-  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap  | fullscreen  preview  save | image media link anchor codesample | a11ycheck showcomments addcomment',
+  menubar: 'edit view format tools  help',
+  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap  | fullscreen  preview  save | image media link anchor codesample | a11ycheck',
+  //* * put these two back later [showcomments, addcomment] */
   //* customize fontselect dropdown */
   // font_formats: 'Arial=arial,helvetica,sans-serif; Courier New=courier new,courier,monospace; AkrutiKndPadmini=Akpdmi-n;微软雅黑;宋体',
   autosave_ask_before_unload: true,
@@ -120,15 +121,15 @@ const handleInit = () => {
 }
 //* * 1. get tinymce content height on change event  */
 const tinymceContentHeight = ref<number>()
-const handleChange = (event, editor) => {
+const handleChange = (__, editor) => {
   const tinymceBodyElement = editor.dom.$('#tinymce')[0]
   const { height } = tinymceBodyElement.getBoundingClientRect()
   tinymceContentHeight.value = height
 }
 //* * 2.keep track of the height of the editor content body */
 watch(tinymceContentHeight, () => {
-  console.log('height:', tinymceContentHeight.value)
-  //* * 3.if content height is above certain threshold .ie(700px) disable the editor and show some message notify user ""*/
+  // console.log('height:', tinymceContentHeight.value)
+  //* * 3.if content height is above certain threshold ie(700px), disable the editor and show some message notify user to delect some content""*/
 })
 
 const handleSaveContent = () => {
