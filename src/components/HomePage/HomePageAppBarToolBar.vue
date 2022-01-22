@@ -1,6 +1,5 @@
 <template>
   <div class="appbar__toolbar">
-    <user-info-box />
     <div class="sortByTime">
       <n-button size="large">
         <n-p class="h6">

@@ -4,8 +4,7 @@
       <LogoButton />
     </div>
     <div class="appbar__header--action">
-      <home-page-header-notification-button />
-      <home-page-switch-lang />
+      <UserInfoBox />
     </div>
   </div>
 </template>

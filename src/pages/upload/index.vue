@@ -52,7 +52,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-
+import { useTitle } from '@vueuse/core'
+const documentTitle = useTitle()
+documentTitle.value = '上传页面'
 const handleUploadFileChange = (info: Object) => {
   console.log(info)
 }

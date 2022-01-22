@@ -12,7 +12,7 @@ import {
 
 export default defineConfig({
   server: {
-    host: '10.53.0.6',
+    host: true,
   },
   resolve: {
     alias: {

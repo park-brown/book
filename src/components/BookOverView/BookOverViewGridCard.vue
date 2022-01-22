@@ -4,7 +4,7 @@
       <div class="overlay" />
       <img
         class="cover"
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/16.png"
+        src="/bookCoverPlaceHolder.jpg"
       >
     </template>
     <template #action>
@@ -38,12 +38,12 @@ interface Props {
   bookName: string
 }
 const props = defineProps<Props>()
-const goToReadOnlyPage = () => {
-  bookStore.value.bookId = props.bookId
-  bookStore.value.bookName = props.bookName
-  bookStore.value.bookContent = props.bookContent
-  router.push('readonly')
-}
+// const goToReadOnlyPage = () => {
+//   bookStore.value.bookId = props.bookId
+//   bookStore.value.bookName = props.bookName
+//   bookStore.value.bookContent = props.bookContent
+//   router.push('readonly')
+// }
 
 const goToEditablePage = () => {
   bookStore.value.bookId = props.bookId
@@ -66,7 +66,7 @@ const goToEditablePage = () => {
     flex-shrink: 0;
     position: relative;
     z-index: 1;
-    min-height: 17.8rem;
+    height: 17.8rem;
     & .overlay {
       content: "";
       position: absolute;
@@ -74,11 +74,7 @@ const goToEditablePage = () => {
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(
-          156.82deg,
-          rgba(0, 0, 0, 0.6) 4.58%,
-          rgba(0, 0, 0, 0) 69.61%
-        ),
+      background:
         linear-gradient(
           24.5deg,
           rgba(0, 0, 0, 0.2) 4.71%,

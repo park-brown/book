@@ -145,7 +145,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-
+import { useTitle } from '@vueuse/core'
+const documentTitle = useTitle()
+documentTitle.value = '主页'
 const isGridOpen = ref(true)
 const isFlexOpen = ref(false)
 const openFlex = () => {

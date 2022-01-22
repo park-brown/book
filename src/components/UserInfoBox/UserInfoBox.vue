@@ -1,6 +1,6 @@
 <template>
   <div class="userinfo">
-    <n-avatar size="small" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/16.png" />
+    <n-avatar size="small" src="/userAvatar.jpg" />
     <n-p class="h6">
       admin
     </n-p>

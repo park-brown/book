@@ -143,6 +143,8 @@
 <script lang="ts" setup>
 import { onBeforeRouteLeave } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
+const documentTitle = useTitle()
+documentTitle.value = '编辑页面'
 const editorInit = ref(false)
 const handleInit = () => {
   editorInit.value = true

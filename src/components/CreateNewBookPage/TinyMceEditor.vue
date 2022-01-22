@@ -8,6 +8,7 @@
     :disabled="false"
     @init="handleInit"
     @save-content="handleSaveContent"
+    @change="handleChange"
   />
 </template>
 <script setup lang="ts">
@@ -17,7 +18,6 @@ import { onBeforeRouteLeave } from 'vue-router'
 import { bookStore, currentPage } from '~/composables/useBookStorage'
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
-
 const initConfig = {
   selector: 'textarea#full-featured',
   language: 'zh_CN',
@@ -36,8 +36,8 @@ const initConfig = {
       items: 'addcomment showcomments deleteallconversations',
     },
   },
-  menubar: 'file edit view format tools table tc help',
-  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview print save | image media link anchor codesample | a11ycheck showcomments addcomment',
+  menubar: 'edit view format tools tc help',
+  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap  | fullscreen  preview  save | image media link anchor codesample | a11ycheck showcomments addcomment',
   //* customize fontselect dropdown */
   // font_formats: 'Arial=arial,helvetica,sans-serif; Courier New=courier new,courier,monospace; AkrutiKndPadmini=Akpdmi-n;微软雅黑;宋体',
   autosave_ask_before_unload: true,
@@ -86,14 +86,22 @@ const initConfig = {
   },
 
 }
+
 const isLeaveRoute = ref(false)
 const message = useMessage()
 
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
-const content = ref('')
-const { data, post, execute } = useFetch(insertBookInfoBaseUrl, { immediate: false }).json()
+
+const { data, post, execute } = useFetch(insertBookInfoBaseUrl, {
+  immediate: false,
+  afterFetch(ctx) {
+    // Modifies the response data
+    ctx.data.data.bookContent = JSON.parse(ctx.data.data.bookContent)
+    return ctx
+  },
+}).json()
 //* *最多1s发送一次保存请求 */
 const debouncedSave = useDebounceFn(() => {
   /**
@@ -106,9 +114,23 @@ const debouncedSave = useDebounceFn(() => {
   post(uploadData)
   execute()
 }, 1000)
+
 const handleInit = () => {
   emit('init')
 }
+//* * 1. get tinymce content height on change event  */
+const tinymceContentHeight = ref<number>()
+const handleChange = (event, editor) => {
+  const tinymceBodyElement = editor.dom.$('#tinymce')[0]
+  const { height } = tinymceBodyElement.getBoundingClientRect()
+  tinymceContentHeight.value = height
+}
+//* * 2.keep track of the height of the editor content body */
+watch(tinymceContentHeight, () => {
+  console.log('height:', tinymceContentHeight.value)
+  //* * 3.if content height is above certain threshold .ie(700px) disable the editor and show some message notify user ""*/
+})
+
 const handleSaveContent = () => {
   debouncedSave()
 }
@@ -120,6 +142,7 @@ watch(data, () => {
       '保存成功',
       { duration: 3000 },
     )
+
     //* * save backend stored content data to localStorage for persistence */
     bookStore.value.bookContent = data.value.data.bookContent
   }
@@ -134,7 +157,6 @@ watch(data, () => {
 onBeforeRouteLeave(() => {
   isLeaveRoute.value = true
 })
-//* *keep track of the height of the editor content body */
 
 </script>
 <style lang="'scss" scoped>

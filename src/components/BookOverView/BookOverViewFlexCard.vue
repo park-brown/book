@@ -4,7 +4,7 @@
       <div class="overlay" />
       <img
         class="cover"
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/16.png"
+        src="/bookCoverPlaceHolder.jpg"
       >
     </template>
     <template #action>

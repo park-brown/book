@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="layout">
-      <n-button size="medium">
+      <n-button size="medium" :bordered="false" @click="goToHome">
         <template #icon>
           <n-icon>
             <i-eva-arrow-back-outline width="16" height="16" />
@@ -31,8 +31,13 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
 const bookName = bookStore.value.bookName
+const router = useRouter()
+const goToHome = () => {
+  router.push('/')
+}
 </script>
 <style lang="scss">
 .header {
