@@ -12,7 +12,9 @@
     "@tinymce/tinymce-vue": "^4",
     "@vueuse/core": "^7.2.2",
     "@vueuse/integrations": "^7.5.3",
+    "epubjs": "^0.3.92",
     "pinia": "^2.0.9",
+    "pinia-plugin-persist": "^0.0.93",
     "vue": "^3.2.24",
     "vue-demi": "^0.12.1",
     "vue-router": "^4.0.12"

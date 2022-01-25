@@ -27,13 +27,13 @@ import { useRouter } from 'vue-router'
 import { bookStore } from '~/composables/useBookStorage'
 const readBaseUrl = 'http://192.168.15.126:8088'
 const router = useRouter()
-interface BookInfo {
-  content: string
-  key: number
-  page: number
-}
+// interface BookInfo {
+//   content: string
+//   key: number
+//   page: number
+// }
 interface Props {
-  bookContent: BookInfo[]
+  bookContent: string
   bookId: string
   bookName: string
 }

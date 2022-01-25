@@ -34,7 +34,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import UserInfoBox from '../UserInfoBox/UserInfoBox.vue'
 const router = useRouter()
 const goToUpload = () => {
   router.push('/upload')

@@ -1,21 +1,13 @@
 <template>
   <div class="pageManagerEditPanelContainer">
-    <n-button type="info" @click="addNewPage">
+    <n-button type="info" @click="page++">
       添加页面
     </n-button>
-    <n-pagination v-model:page="page" class="paginationContainer" :page-count="pageCount" show-quick-jumper />
+    <n-pagination v-model:page="page" class="paginationContainer" :page-count="100" show-quick-jumper />
   </div>
 </template>
 <script setup lang="ts">
-import { bookStore, addNewPage, pageCount, currentPage } from '~/composables/useBookStorage'
 const page = ref(1)
-
-watch(page, () => {
-  currentPage.value = page.value
-})
-tryOnMounted(() => {
-  pageCount.value = bookStore.value.bookContent.length
-})
 </script>
 <style lang="scss" scoped>
 .pageManagerEditPanelContainer {

@@ -45,7 +45,7 @@ const error = ref(false)
 const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
 const { isFetching, isFinished, data } = useFetch(getBookInfoListUrl, {
   afterFetch(ctx) {
-    const parseBookContent = ctx.data.data.slice().map((item) => {
+    const parseBookContent = ctx.data.data.slice().map((item: any) => {
       return {
         ...item,
         bookContent: JSON.parse(item.bookContent),

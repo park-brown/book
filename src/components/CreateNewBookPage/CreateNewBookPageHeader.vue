@@ -14,14 +14,14 @@
         </n-p>
       </div>
       <div class="saveBtnContainer">
-        <!-- <n-button type="info" size="medium" class="body-1 btn__save">
+        <n-button type="info" size="medium" class="body-1 btn__save">
           保存
         </n-button>
         <div class="timestamp">
           <n-p class="body-2">
             最近保存12:03
           </n-p>
-        </div> -->
+        </div>
       </div>
       <div class="toolbar" />
       <div class="userInfoContainer">

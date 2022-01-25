@@ -1,11 +1,9 @@
 <template>
   <editor
-    v-model="bookStore.bookContent[currentPage - 1].content"
-    class="tinyEditor"
+    v-model="bookStore.bookContent"
     :api-key="apiKey"
     :init="initConfig"
     output-format="html"
-    :disabled="false"
     @init="handleInit"
     @save-content="handleSaveContent"
     @change="handleChange"
@@ -13,22 +11,25 @@
 </template>
 <script setup lang="ts">
 import Editor from '@tinymce/tinymce-vue'
-import { useMessage } from 'naive-ui'
 import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore, currentPage } from '~/composables/useBookStorage'
+import { useMessage } from 'naive-ui'
+import { bookStore } from '~/composables/useBookStorage'
+const message = useMessage()
 const apiKey = import.meta.env.VITE_TINY_APIKEY
 const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
+/**
+ ** editor config */
 const initConfig = {
   selector: 'textarea#full-featured',
-  language: 'zh_CN',
+  // language: 'zh_CN',
   browser_spellcheck: true,
-  plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable image help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
+  plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink  save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable image help formatpainter permanentpen  charmap tinycomments mentions quickbars linkchecker emoticons advtable export',
   //   tinydrive_token_provider: 'URL_TO_YOUR_TOKEN_PROVIDER',
   //   tinydrive_dropbox_app_key: 'YOUR_DROPBOX_APP_KEY',
   //   tinydrive_google_drive_key: 'YOUR_GOOGLE_DRIVE_KEY',
   //   tinydrive_google_drive_client_id: 'YOUR_GOOGLE_DRIVE_CLIENT_ID',
   mobile: {
-    plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
+    plugins: 'print  preview powerpaste casechange importcss  searchreplace autolink  save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor  insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable',
   },
   menu: {
     tc: {
@@ -36,17 +37,17 @@ const initConfig = {
       items: 'addcomment showcomments deleteallconversations',
     },
   },
-  menubar: 'edit view format tools  help',
-  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap  | fullscreen  preview  save | image media link anchor codesample | a11ycheck',
+  menubar: 'file edit view format tools  help',
+  toolbar: 'undo redo  | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap  | fullscreen  preview  | image media link anchor codesample | a11ycheck showcomments, addcomment',
   //* * put these two back later [showcomments, addcomment] */
   //* customize fontselect dropdown */
   // font_formats: 'Arial=arial,helvetica,sans-serif; Courier New=courier new,courier,monospace; AkrutiKndPadmini=Akpdmi-n;微软雅黑;宋体',
-  autosave_ask_before_unload: true,
+  // autosave_ask_before_unload: true,
   save_enablewhendirty: true,
-  autosave_interval: '30s',
-  autosave_prefix: 'tinymce-autosave-{path}{query}-{id}-',
-  autosave_restore_when_empty: false,
-  autosave_retention: '2m',
+  // autosave_interval: '30s',
+  // autosave_prefix: 'tinymce-autosave-{path}{query}-{id}-',
+  // autosave_restore_when_empty: true,
+  // autosave_retention: '2m',
   // save_onsavecallback() { console.log('Saved') },
   image_advtab: true,
   // mediaembed_max_width: 600,
@@ -68,6 +69,7 @@ const initConfig = {
   //   { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
   //   { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' },
   // ],
+  pagebreak_split_block: true,
   template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
   template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
   height: '100%',
@@ -87,14 +89,21 @@ const initConfig = {
   },
 
 }
-
+/**
+ * *  ref data
+ */
 const isLeaveRoute = ref(false)
-const message = useMessage()
-
+const tinymceContentHeight = ref<number>()
+/**
+ ** emit['init']
+ ** init: listen for editor init
+ */
 const emit = defineEmits<{
   (event: 'init'): void
 }>()
-
+/**
+ ** network request:save content to database
+ */
 const { data, post, execute } = useFetch(insertBookInfoBaseUrl, {
   immediate: false,
   afterFetch(ctx) {
@@ -103,39 +112,8 @@ const { data, post, execute } = useFetch(insertBookInfoBaseUrl, {
     return ctx
   },
 }).json()
-//* *最多1s发送一次保存请求 */
-const debouncedSave = useDebounceFn(() => {
-  /**
-   **tinymce save-content-event will call handler function on page leave, find a way to disable it */
-  if (isLeaveRoute.value) return
-  const uploadData = new FormData()
-  uploadData.append('bookId', bookStore.value.bookId)
-  uploadData.append('bookName', bookStore.value.bookName)
-  uploadData.append('bookContent', JSON.stringify(JSON.parse(localStorage.getItem('book-store')).bookContent))
-  post(uploadData)
-  execute()
-}, 1000)
-
-const handleInit = () => {
-  emit('init')
-}
-//* * 1. get tinymce content height on change event  */
-const tinymceContentHeight = ref<number>()
-const handleChange = (__, editor) => {
-  const tinymceBodyElement = editor.dom.$('#tinymce')[0]
-  const { height } = tinymceBodyElement.getBoundingClientRect()
-  tinymceContentHeight.value = height
-}
-//* * 2.keep track of the height of the editor content body */
-watch(tinymceContentHeight, () => {
-  // console.log('height:', tinymceContentHeight.value)
-  //* * 3.if content height is above certain threshold ie(700px), disable the editor and show some message notify user to delect some content""*/
-})
-
-const handleSaveContent = () => {
-  debouncedSave()
-}
-
+/**
+ ** watch response data to handle success and reject case */
 watch(data, () => {
   if (data.value.code === '200') {
     //* *保存成功 */
@@ -145,7 +123,7 @@ watch(data, () => {
     )
 
     //* * save backend stored content data to localStorage for persistence */
-    bookStore.value.bookContent = data.value.data.bookContent
+    // bookStore.value.bookContent = data.value.data.bookContent
   }
   else {
     //* *保存失败 */
@@ -155,11 +133,57 @@ watch(data, () => {
     )
   }
 })
+/**
+ ** method place here
+ */
+
+const handleSaveContent = (event: Event, editor: any) => {
+  // editor.notificationManager.open({
+  //   text: '正在保存，请稍后',
+  //   type: 'info',
+  //   timeout: 3000,
+  // }
+  event.preventDefault()
+  /**
+   ** group save call into one single call and limit to call only during [1000ms] threshold */
+  useDebounceFn(() => {
+  /**
+   **tinymce save-content-event will call handler function on page leave, find a way to disable it */
+    if (isLeaveRoute.value) return
+    const uploadData = new FormData()
+    uploadData.append('bookId', bookStore.value.bookId)
+    uploadData.append('bookName', bookStore.value.bookName)
+    uploadData.append('bookContent', bookStore.value.bookContent)
+  // post(uploadData)
+  // execute()
+  }, 1000)
+}
+const handleInit = () => {
+  emit('init')
+}
+/**
+ **  1. get tinymce content height on change event  */
+const handleChange = (__: Event, editor: any) => {
+  const tinymceBodyElement = editor.dom.$('#tinymce')[0]
+  const { height } = tinymceBodyElement.getBoundingClientRect()
+  tinymceContentHeight.value = height
+}
+/**
+ **  2.keep track of the height of the editor content body */
+watch(tinymceContentHeight, () => {
+  console.log('height:', tinymceContentHeight.value)
+  /**
+   **  3.if content height is above certain threshold ie(700px), disable the editor and show some message notify user to delect some content"" */
+})
+
 onBeforeRouteLeave(() => {
   isLeaveRoute.value = true
 })
 
 </script>
-<style lang="'scss" scoped>
-
+<style lang="scss" scoped>
+.formContainer {
+  width:100%;
+  height:100%;
+}
 </style>
