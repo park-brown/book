@@ -1,13 +1,13 @@
 <template>
   <div class="pageManagerEditPanelContainer">
-    <n-button type="info" @click="page++">
+    <!-- <n-button type="info" @click="page++">
       添加页面
     </n-button>
-    <n-pagination v-model:page="page" class="paginationContainer" :page-count="100" show-quick-jumper />
+    <n-pagination v-model:page="page" class="paginationContainer" :page-count="100" show-quick-jumper /> -->
   </div>
 </template>
 <script setup lang="ts">
-const page = ref(1)
+
 </script>
 <style lang="scss" scoped>
 .pageManagerEditPanelContainer {

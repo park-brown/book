@@ -133,19 +133,24 @@
       </div>
       <section class="pageContainer">
         <div class="pageLayOutContainer">
-          <n-skeleton v-if="!editorInit" height="100%" width="100%" />
-          <TinyMceEditor @init="handleInit" />
+          <!-- <n-skeleton v-if="!editorInit" height="100%" width="100%" /> -->
+          <!-- <TinyMceEditor @init="handleInit" /> -->
+          <TipTapEditor />
         </div>
+        <EditorStatusBar />
       </section>
     </main>
   </div>
 </template>
 <script lang="ts" setup>
-
-const editorInit = ref(false)
-const handleInit = () => {
-  editorInit.value = true
-}
+/**
+ ** tinyMce editor  **/
+// const editorInit = ref(false)
+// const handleInit = () => {
+//   editorInit.value = true
+// }
+/**
+ ** tiptap editor  **/
 
 </script>
 <style lang="scss" scoped>
@@ -167,29 +172,32 @@ const handleInit = () => {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding:$spacing*15 $spacing*6  0 $spacing*6
+        padding:0 $spacing*6  0 $spacing*6
     }
 }
 .sidebar {
     width: 48rem;
     height: 100%;
-    box-shadow: $shadow-2;
+    box-shadow: inset 0 0 6px rgb(0 0 0 / 10%);
     display: flex;
 }
 .pageContainer {
     flex: 1;
     height: 100%;
+    background-color: $grey-300;
+    position: relative;
 }
 .pageLayOutContainer {
     @include laptop {
         width: 100%;
         height: 100%;
-        max-width: 1280px;
-        margin: 0 auto;
+        max-width: 82rem;
+        margin: $spacing*4 auto 0 ;
         background-color: $white;
         box-shadow: $shadow-2;
     }
 }
+
 .page {
     width: 100%;
     height: 100%;

@@ -1,16 +1,11 @@
 <template>
   <div class="container">
     <div id="area">
-      <n-button @click="store.increment">
-        click
-      </n-button>
-      <p>count:{{ store.counter }}</p>
+      <TipTapEditor class="tipTapEditor" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useEbookStore } from '~/stores/eBook'
-const store = useEbookStore()
 
 </script>
 <style lang="scss" scoped>

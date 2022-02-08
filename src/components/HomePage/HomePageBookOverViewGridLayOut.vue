@@ -43,28 +43,28 @@
 const ready = ref(false)
 const error = ref(false)
 const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
-const { isFetching, isFinished, data } = useFetch(getBookInfoListUrl, {
-  afterFetch(ctx) {
-    const parseBookContent = ctx.data.data.slice().map((item: any) => {
-      return {
-        ...item,
-        bookContent: JSON.parse(item.bookContent),
-      }
-    })
+// const { isFetching, isFinished, data } = useFetch(getBookInfoListUrl, {
+//   afterFetch(ctx) {
+//     const parseBookContent = ctx.data.data.slice().map((item: any) => {
+//       return {
+//         ...item,
+//         bookContent: JSON.parse(item.bookContent),
+//       }
+//     })
 
-    ctx.data.data = parseBookContent
-    return ctx
-  },
-}).json()
+//     ctx.data.data = parseBookContent
+//     return ctx
+//   },
+// }).json()
 
-watch(isFinished, () => {
-  // //* *数据接收失败 */
-  if (!isDefined(data))
-    return error.value = true
-  // //* *数据接收成功 */
-  ready.value = true
-  error.value = false
-})
+// watch(isFinished, () => {
+//   // //* *数据接收失败 */
+//   if (!isDefined(data))
+//     return error.value = true
+//   // //* *数据接收成功 */
+//   ready.value = true
+//   error.value = false
+// })
 
 </script>
 <style lang="scss" scoped>
