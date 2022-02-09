@@ -1,24 +1,13 @@
 <template>
   <div class="pageManagerContainer">
     <n-tabs type="line" class="pageManagerTabs">
-      <n-tab-pane name="编辑" tab="编辑">
+      <!-- <n-tab-pane name="编辑" tab="编辑">
         <PageManagerEditPanel />
-      </n-tab-pane>
+      </n-tab-pane> -->
       <n-tab-pane name="目录" tab="目录">
-        <n-empty>
-          <template #icon>
-            <n-icon>
-              <i-uil-jackhammer />
-            </n-icon>
-          </template>
-          <template #extra>
-            <n-p class="h3">
-              目录正在开发...🚀
-            </n-p>
-          </template>
-        </n-empty>
+        <PageManagerTableOfContent />
       </n-tab-pane>
-      <n-tab-pane name="模板" tab="模板">
+      <!-- <n-tab-pane name="模板" tab="模板">
         <n-empty>
           <template #icon>
             <n-icon>
@@ -45,7 +34,7 @@
             </n-p>
           </template>
         </n-empty>
-      </n-tab-pane>
+      </n-tab-pane> -->
       <n-tab-pane name="设置" tab="设置">
         <PageManagerSettingPanel />
       </n-tab-pane>

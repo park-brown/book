@@ -2,69 +2,23 @@
   <div class="pageContainer">
     <div class="bottomNavigationBar">
       <ul class="bottomNavigationBarInner">
-        <n-button :bordered="false" @click="prev">
+        <n-button :bordered="false">
           <i-akar-icons-arrow-left />
         </n-button>
-        <n-button :bordered="false" @click="next">
+        <n-button :bordered="false">
           <i-akar-icons-arrow-right />
         </n-button>
-        <n-statistic :value="pageCount">
+        <n-statistic :value="1">
           <template #prefix>
-            {{ pageIndex + 1 }} /
+            {{ 1 }} /
           </template>
         </n-statistic>
       </ul>
     </div>
-    <div class="editorContainer">
-      <n-skeleton v-if="!editorReady" height="800px" width="100%" />
-      <editor
-        v-model="bookStore.bookContent[pageIndex].content"
-        :api-key="apiKey"
-        :init="initConfig"
-        output-format="html"
-        :disabled="true"
-        @init="handleInit"
-      />
-    </div>
   </div>
 </template>
 <script setup lang="ts">
-import Editor from '@tinymce/tinymce-vue'
-import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore, pageCount } from '~/composables/useBookStorage'
-const apiKey = import.meta.env.VITE_TINY_APIKEY
 
-const min = ref(0)
-const max = ref(pageCount)
-const pageIndex = useClamp(0, min, max)
-const editorReady = ref(false)
-const handleInit = () => {
-  editorReady.value = true
-}
-const prev = () => {
-  pageIndex.value = pageIndex.value - 1
-}
-const next = () => {
-  pageIndex.value = pageIndex.value + 1
-}
-
-const initConfig = {
-  selector: 'textarea#readOnly',
-  language: 'zh_CN',
-  menubar: false,
-  toolbar: false,
-  height: 800,
-  readonly: true,
-
-}
-tryOnMounted(() => {
-  pageCount.value = bookStore.value.bookContent.length
-})
-onBeforeRouteLeave(() => {
-  bookStore.value.bookName = ''
-  bookStore.value.bookId = ''
-  bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
-})
 </script>
 <style lang="scss" scoped>
 .pageContainer {

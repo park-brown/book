@@ -1,53 +1,27 @@
 <template>
-  <n-scrollbar style="max-height: 86rem;">
-    <bubble-menu v-if="editor" :editor="editor">
-      <n-button :class="{ 'is-active': editor.isActive('bold') }" @click="editor.chain().focus().toggleBold().run()">
-        <i-clarity-bold-line />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('italic') }" @click="editor.chain().focus().toggleItalic().run()">
-        <i-clarity-italic-line />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('strike') }" @click="editor.chain().focus().toggleStrike().run()">
-        <i-clarity-strikethrough-line />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('underline') }" @click="editor.chain().focus().toggleUnderline().run()">
-        <i-dashicons-editor-underline />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
-        <i-gridicons-heading-h1 />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
-        <i-gridicons-heading-h2 />
-      </n-button>
-      <n-button :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
-        <i-gridicons-heading-h3 />
-      </n-button>
-    </bubble-menu>
-    <EditorContent :editor="editor" class="TipTapEditor" />
+  <n-scrollbar style="max-height: 86rem;" class="scrollbar">
+    <TipTapBubbleMenu :editor="editor" />
+    <EditorContent :editor="editor" class="TipTapEditor js-toc-content" />
+    <div class="js-toc" />
   </n-scrollbar>
 </template>
 <script setup lang="ts">
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/vue-3'
+
+import { useEditor, EditorContent } from '@tiptap/vue-3'
+
 // import { generateJSON } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Bold from '@tiptap/extension-bold'
-import Underline from '@tiptap/extension-underline'
-import Heading from '@tiptap/extension-heading'
+import { Underline } from '@tiptap/extension-underline'
+import { Heading } from '@tiptap/extension-heading'
+import { BulletList } from '@tiptap/extension-bullet-list'
+import { ListItem } from '@tiptap/extension-list-item'
+import { OrderedList } from '@tiptap/extension-ordered-list'
+import { Link } from '@tiptap/extension-link'
+import { Blockquote } from '@tiptap/extension-blockquote'
+import { TextAlign } from '@tiptap/extension-text-align'
+import { CharacterCount } from '@tiptap/extension-character-count'
 
-// const output = computed(() => {
-//   return generateJSON('', [
-//     Document,
-//     Paragraph,
-//     Text,
-//     Bold,
-//     Underline,
-//     // other extensions …
-//   ])
-// })
-
+const characterCount = ref<number>(0)
 const editor = useEditor({
   content: '',
   extensions: [
@@ -56,34 +30,62 @@ const editor = useEditor({
     Heading.configure({
       levels: [1, 2, 3],
     }),
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+      alignments: ['left', 'center', 'right'],
+    }),
+    BulletList,
+    OrderedList,
+    ListItem,
+    Link,
+    Blockquote,
+    CharacterCount,
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
     const json = editor.getJSON()
+
     // send the content to an API here
     console.log('json:', json)
+    /**
+     ** 中文模式下计算字数取 character */
+    characterCount.value = editor.storage.characterCount.characters()
+    console.log('char:', characterCount.value)
+    /**
+     **获取所有标题生成目录 */
+    window.tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.js-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.ProseMirror',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h1, h2, h3',
+      // For headings inside relative or absolute positioned containers within content.
+      hasInnerContainers: true,
+    })
   },
 })
+
 </script>
 
 <style lang="scss" scoped>
 /* Basic editor styles */
 .TipTapEditor {
-    height:100%;
-    margin:$spacing*4 0 0 0;
+  height: 100%;
+  margin: $spacing * 4 0 0 0;
 }
-.TipTapEditor ::v-deep(.ProseMirror)  {
- @include laptop {
-    width:100%;
-    max-width:82rem;
-    margin:0 auto;
-    height:100%;
-    padding:$spacing*24;
- }
- &:focus-visible {
-     outline:none
- }
- > * + * {
+.TipTapEditor ::v-deep(.ProseMirror) {
+  @include laptop {
+    width: 100%;
+    max-width: 82rem;
+    margin: 0 auto;
+    height: 100%;
+    padding: $spacing * 24;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  & > *  {
     margin-top: 0.75rem;
   }
 
@@ -93,16 +95,25 @@ const editor = useEditor({
   }
 
   p {
-      font-size:14px
+    font-size: 14px;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 1.1;
+  // h1,
+  // h2,
+  // h3,
+  // h4,
+  // h5,
+  // h6 {
+  //   line-height: 1.1;
+  // }
+  h1 {
+    @include h1
+  }
+  h2 {
+    @include h2
+  }
+  h3 {
+    @include h3
   }
 
   code {
@@ -111,9 +122,9 @@ const editor = useEditor({
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
+    background: #0d0d0d;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 
@@ -132,14 +143,19 @@ const editor = useEditor({
 
   blockquote {
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
   }
 
   hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
 }
+// .js-toc {
+//   position: absolute;
+//   top:0;
+//   left:0;
+// }
 
 </style>

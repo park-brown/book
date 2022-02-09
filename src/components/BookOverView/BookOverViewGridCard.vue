@@ -8,7 +8,7 @@
       >
     </template>
     <template #action>
-      <n-button class="read" :bordered="false" tag="a" :href="`${readBaseUrl}/?bookId=${props.bookId}`">
+      <n-button class="read" :bordered="false">
         阅读
       </n-button>
       <n-button class="edit" :bordered="false" @click="goToEditablePage">
@@ -17,27 +17,16 @@
     </template>
     <template #footer>
       <n-ellipsis class="footer h5">
-        {{ bookName }}
+        placeholder
       </n-ellipsis>
     </template>
   </n-card>
 </template>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import { bookStore } from '~/composables/useBookStorage'
-const readBaseUrl = 'http://192.168.15.126:8088'
 const router = useRouter()
-// interface BookInfo {
-//   content: string
-//   key: number
-//   page: number
-// }
-interface Props {
-  bookContent: string
-  bookId: string
-  bookName: string
-}
-const props = defineProps<Props>()
+
+// const props = defineProps()
 // const goToReadOnlyPage = () => {
 //   bookStore.value.bookId = props.bookId
 //   bookStore.value.bookName = props.bookName
@@ -46,9 +35,6 @@ const props = defineProps<Props>()
 // }
 
 const goToEditablePage = () => {
-  bookStore.value.bookId = props.bookId
-  bookStore.value.bookName = props.bookName
-  bookStore.value.bookContent = props.bookContent
   router.push('editable')
 }
 </script>

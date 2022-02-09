@@ -196,6 +196,10 @@
         background-color: $white;
         box-shadow: $shadow-2;
     }
+    & ::v-deep(.tippy-box) {
+      box-shadow: $shadow-4;
+    }
+
 }
 
 .page {

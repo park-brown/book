@@ -1,23 +1,23 @@
 <template>
   <div class="container">
     <div id="area">
-      <TipTapEditor class="tipTapEditor" />
+      123
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script  lang="ts">
 
 </script>
 <style lang="scss" scoped>
 .container {
   width: 100%;
-  max-width:1280px;
-  height:87.5vh;
+  max-width: 1280px;
+  height: 87.5vh;
   margin: 4rem auto;
   background-color: $white;
   box-shadow: $shadow-4;
-  border-radius:$border-radius*2;
-  padding:$spacing*8;
+  border-radius: $border-radius * 2;
+  padding: $spacing * 8;
   overflow: hidden;
 }
 </style>

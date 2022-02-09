@@ -142,7 +142,6 @@
 </template>
 <script lang="ts" setup>
 import { onBeforeRouteLeave } from 'vue-router'
-import { bookStore } from '~/composables/useBookStorage'
 const documentTitle = useTitle()
 documentTitle.value = '编辑页面'
 const editorInit = ref(false)
@@ -151,9 +150,7 @@ const handleInit = () => {
 }
 //* * clean up bookStore before route leave on page editable */
 onBeforeRouteLeave((to, from) => {
-  bookStore.value.bookId = ''
-  bookStore.value.bookName = ''
-  bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
+
 })
 </script>
 <style lang="scss" scoped>
