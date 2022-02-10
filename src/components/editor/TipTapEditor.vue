@@ -2,43 +2,36 @@
   <n-scrollbar style="max-height: 86rem;" class="scrollbar">
     <TipTapBubbleMenu :editor="editor" />
     <EditorContent :editor="editor" class="TipTapEditor js-toc-content" />
-    <div class="js-toc" />
   </n-scrollbar>
 </template>
 <script setup lang="ts">
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-
+import { nanoid } from 'nanoid'
 // import { generateJSON } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
 import { Underline } from '@tiptap/extension-underline'
-import { Heading } from '@tiptap/extension-heading'
-import { BulletList } from '@tiptap/extension-bullet-list'
-import { ListItem } from '@tiptap/extension-list-item'
-import { OrderedList } from '@tiptap/extension-ordered-list'
 import { Link } from '@tiptap/extension-link'
-import { Blockquote } from '@tiptap/extension-blockquote'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { CharacterCount } from '@tiptap/extension-character-count'
-
+import { useTableOfContent } from '~/stores/TableOfContent.ts'
+const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
 const editor = useEditor({
   content: '',
   extensions: [
-    StarterKit,
-    Underline,
-    Heading.configure({
-      levels: [1, 2, 3],
+    StarterKit.configure({
+      // Configure an included extension
+      heading: {
+        levels: [1, 2, 3],
+      },
     }),
+    Underline,
     TextAlign.configure({
       types: ['heading', 'paragraph'],
       alignments: ['left', 'center', 'right'],
     }),
-    BulletList,
-    OrderedList,
-    ListItem,
     Link,
-    Blockquote,
     CharacterCount,
   ],
   // triggered on every change
@@ -50,19 +43,90 @@ const editor = useEditor({
     /**
      ** 中文模式下计算字数取 character */
     characterCount.value = editor.storage.characterCount.characters()
-    console.log('char:', characterCount.value)
+    // console.log('char:', characterCount.value)
     /**
-     **获取所有标题生成目录 */
-    window.tocbot.init({
-      // Where to render the table of contents.
-      tocSelector: '.js-toc',
-      // Where to grab the headings to build the table of contents.
-      contentSelector: '.ProseMirror',
-      // Which headings to grab inside of the contentSelector element.
-      headingSelector: 'h1, h2, h3',
-      // For headings inside relative or absolute positioned containers within content.
-      hasInnerContainers: true,
+     **1)get all heading into headings array */
+    const headings = []
+    json.content.slice().forEach(item => item.type === 'heading' ? headings.push(item) : null)
+
+    /**
+     **2) transform flat headings array into nested tree data */
+    let treeData = []
+    headings.slice().forEach((heading) => {
+      switch (heading.attrs.level) {
+        case 1: {
+          const label = heading.content[0].text
+          const heading_1 = {
+            key: nanoid(),
+            label,
+            children: [],
+          }
+          treeData = [...treeData, heading_1]
+        }
+          break
+        case 2:{
+          const label = heading.content[0].text
+          const heading_2 = {
+            key: nanoid(),
+            label,
+            children: [],
+          }
+
+          /**
+           ** headings [...,1,2] */
+          /**
+           ** find the lastest heading-1  */
+          const lastHeading_1 = treeData[treeData.length - 1]
+          /**
+          ** find position of the last index heading 1 */
+          const index = treeData.findIndex(heading => heading === lastHeading_1)
+          /**
+           ** fill heading_2 object into the last heading_1 children array */
+          const newHeading_1 = {
+            ...lastHeading_1,
+            children: [
+              ...lastHeading_1.children,
+              heading_2,
+            ],
+          }
+          /**
+           ** replace old heading with new one */
+          treeData.splice(index, 1, newHeading_1)
+        }
+          break
+        case 3:{
+          const label = heading.content[0].text
+          const heading_3 = {
+            key: nanoid(),
+            label,
+          }
+          /**
+           ** headings [...,1,2,3] */
+
+          /**
+           ** find the lastest heading-2  */
+          const lastestHeading_1 = treeData[treeData.length - 1]
+          const lastestHeading_2 = lastestHeading_1.children[lastestHeading_1.children.length - 1]
+
+          /**
+          ** find position of the last index heading 1 */
+          const index1 = treeData.findIndex(heading => heading === lastestHeading_1)
+          /**
+          ** find position of the last index heading 2 */
+          const index2 = lastestHeading_1.children.findIndex(heading2 => heading2.key === lastestHeading_2.key)
+
+          /**
+           ** fill heading_3 object into the last heading_2 children array */
+
+          treeData[index1].children[index2].children.push(heading_3)
+        }
+
+          break
+        default:
+          break
+      }
     })
+    TOC.treeData = treeData
   },
 })
 

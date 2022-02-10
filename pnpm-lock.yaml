@@ -27,17 +27,16 @@ specifiers:
   epubjs: ^0.3.92
   eslint: ^8.4.1
   naive-ui: ^2.22.0
+  nanoid: ^3.2.0
   pinia: ^2.0.9
   pinia-plugin-persist: ^0.0.93
   pnpm: ^6.23.6
   sass: ^1.45.0
   sass-loader: ^12.4.0
-  tocbot: 4.12.0
   typescript: ^4.5.2
   unplugin-auto-import: ^0.5.3
   unplugin-icons: ^0.12.23
   unplugin-vue-components: ^0.17.6
-  uuid: ^8.3.2
   vite: ^2.7.1
   vite-plugin-pages: ^0.18.2
   vitest: ^0.0.44
@@ -64,10 +63,9 @@ dependencies:
   '@vueuse/firebase': 7.5.5_vue@3.2.24
   '@vueuse/integrations': 7.5.3_vue@3.2.24
   epubjs: 0.3.92
+  nanoid: 3.2.0
   pinia: 2.0.9_typescript@4.5.2+vue@3.2.24
   pinia-plugin-persist: 0.0.93_vue@3.2.24
-  tocbot: 4.12.0
-  uuid: 8.3.2
   vue: 3.2.24
   vue-demi: 0.12.1_vue@3.2.24
   vue-router: 4.0.12_vue@3.2.24
@@ -4895,17 +4893,10 @@ packages:
     resolution: {integrity: sha512-SFNdALvzW+rVlzqexid6epYdt8H9Zol7xDoQarioEFcFN0JHo4CYNztAxmtfgGTVRCmFlEOqqhBpoFGKqSAMug==}
     dev: false
 
-  /nanoid/3.1.25:
-    resolution: {integrity: sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==}
+  /nanoid/3.2.0:
+    resolution: {integrity: sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: false
-
-  /nanoid/3.1.30:
-    resolution: {integrity: sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-    dev: true
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
@@ -5333,7 +5324,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanocolors: 0.2.12
-      nanoid: 3.1.25
+      nanoid: 3.2.0
       source-map-js: 0.6.2
     dev: false
 
@@ -5341,7 +5332,7 @@ packages:
     resolution: {integrity: sha512-joU6fBsN6EIer28Lj6GDFoC/5yOZzLCfn0zHAn/MYXI7aPt4m4hK5KC5ovEZXy+lnCjmYIbQWngvju2ddyEr8Q==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.1.30
+      nanoid: 3.2.0
       picocolors: 1.0.0
       source-map-js: 1.0.1
     dev: true
@@ -6074,10 +6065,6 @@ packages:
       is-number: 7.0.0
     dev: true
 
-  /tocbot/4.12.0:
-    resolution: {integrity: sha512-THn/RJCRsbo1fgCP0fWHJwkk1K9mQFfYUX5rJdoJMQ7twkVX7zjNJZOjHmrpDzFd6nTPkXpQNsZUniCgdCwFLg==}
-    dev: false
-
   /tough-cookie/4.0.0:
     resolution: {integrity: sha512-tHdtEpQCMrc1YLrMaqXXcj6AxhYi/xgit6mZu1+EDWUn+qhUf8wMQoFIy9NXuq23zAwtcB0t/MjACGR18pcRbg==}
     engines: {node: '>=6'}
@@ -6320,11 +6307,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
-
-  /uuid/8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}

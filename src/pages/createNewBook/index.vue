@@ -196,6 +196,8 @@
         background-color: $white;
         box-shadow: $shadow-2;
     }
+    /**
+     ** style tiptap bubble menu */
     & ::v-deep(.tippy-box) {
       box-shadow: $shadow-4;
     }
