@@ -1,6 +1,6 @@
 <template>
   <TipTapFixedMenu :editor="editor" />
-  <n-scrollbar style="max-height: 86rem;" class="scrollbar">
+  <n-scrollbar style="max-height: 75rem;" class="scrollbar">
     <TipTapBubbleMenu :editor="editor" />
     <EditorContent :editor="editor" class="TipTapEditor js-toc-content" />
   </n-scrollbar>
@@ -146,7 +146,7 @@ const editor = useEditor({
 <style lang="scss" scoped>
 /* Basic editor styles */
 .TipTapEditor {
-  height: 100%;
+  height: 75rem;
   margin: $spacing * 4 0 0 0;
 }
 .TipTapEditor ::v-deep(.ProseMirror) {
@@ -155,7 +155,7 @@ const editor = useEditor({
     max-width: 82rem;
     margin: 0 auto;
     height: 100%;
-    padding: $spacing * 24;
+    padding: $spacing * 12;
   }
   &:focus-visible {
     outline: none;

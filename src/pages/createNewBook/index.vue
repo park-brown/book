@@ -189,7 +189,6 @@
 .pageLayOutContainer {
     @include laptop {
         width: 100%;
-        height: 100%;
         max-width: 82rem;
         margin: $spacing*10 auto 0 ;
         background-color: $white;
