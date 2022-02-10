@@ -172,7 +172,6 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding:0 $spacing*6  0 $spacing*6
     }
 }
 .sidebar {
@@ -192,7 +191,7 @@
         width: 100%;
         height: 100%;
         max-width: 82rem;
-        margin: $spacing*4 auto 0 ;
+        margin: $spacing*10 auto 0 ;
         background-color: $white;
         box-shadow: $shadow-2;
     }
@@ -200,6 +199,8 @@
      ** style tiptap bubble menu */
     & ::v-deep(.tippy-box) {
       box-shadow: $shadow-4;
+      border-radius: $border-radius * 2;
+      max-width:36rem!important
     }
 
 }

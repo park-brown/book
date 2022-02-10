@@ -8,9 +8,10 @@
           </n-icon>
         </template>
       </n-button>
-      <div class="toolbar" />
-      <div class="userInfoContainer">
-        <user-info-box />
+      <div class="rightside">
+        <div class="userInfoContainer">
+          <user-info-box />
+        </div>
       </div>
     </div>
   </div>
@@ -36,5 +37,10 @@ const goToHome = () => {
         justify-content: space-between;
     }
 }
-
+.rightside {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: $spacing*4;
+}
 </style>

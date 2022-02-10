@@ -104,6 +104,18 @@
       </template>
       <span class="subtitle-1"> 无序表单 </span>
     </n-tooltip>
+    <!--插入表格-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-button
+          :bordered="false"
+          @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
+        >
+          <i-ci-table />
+        </n-button>
+      </template>
+      <span class="subtitle-1"> 插入表格 </span>
+    </n-tooltip>
     <!--有序表单-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>

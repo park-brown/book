@@ -1,4 +1,5 @@
 <template>
+  <TipTapFixedMenu :editor="editor" />
   <n-scrollbar style="max-height: 86rem;" class="scrollbar">
     <TipTapBubbleMenu :editor="editor" />
     <EditorContent :editor="editor" class="TipTapEditor js-toc-content" />
@@ -14,7 +15,11 @@ import { Underline } from '@tiptap/extension-underline'
 import { Link } from '@tiptap/extension-link'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { CharacterCount } from '@tiptap/extension-character-count'
-import { useTableOfContent } from '~/stores/TableOfContent.ts'
+import { Table } from '@tiptap/extension-table'
+import { TableRow } from '@tiptap/extension-table-row'
+import { TableCell } from '@tiptap/extension-table-cell'
+import { TableHeader } from '@tiptap/extension-table-header'
+import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
 const editor = useEditor({
@@ -33,6 +38,12 @@ const editor = useEditor({
     }),
     Link,
     CharacterCount,
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -162,14 +173,65 @@ const editor = useEditor({
     font-size: 14px;
   }
 
-  // h1,
-  // h2,
-  // h3,
-  // h4,
-  // h5,
-  // h6 {
-  //   line-height: 1.1;
-  // }
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      border: 2px solid #ced4da;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f1f3f5;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: "";
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px;
+      top: 0;
+      bottom: -2px;
+      width: 4px;
+      background-color: #adf;
+      pointer-events: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+  .tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
   h1 {
     @include h1
   }
@@ -216,10 +278,5 @@ const editor = useEditor({
     margin: 2rem 0;
   }
 }
-// .js-toc {
-//   position: absolute;
-//   top:0;
-//   left:0;
-// }
 
 </style>

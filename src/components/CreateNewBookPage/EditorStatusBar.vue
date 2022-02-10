@@ -10,7 +10,7 @@
       <div class="rightSide">
         <div class="wordCount">
           <n-p class="subtitle-2">
-            123字
+            ...
           </n-p>
         </div>
       </div>
