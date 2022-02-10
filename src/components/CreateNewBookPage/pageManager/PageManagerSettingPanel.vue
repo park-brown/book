@@ -24,10 +24,10 @@
         </n-p>
         <div class="pageManagerSettingPanelInnerBookCoverUploadContainer">
           <n-upload
+            action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
             class="upload"
-            :max="1"
-            :show-file-list="false"
             list-type="image-card"
+            :max="1"
           >
             点击上传
           </n-upload>
@@ -108,7 +108,8 @@ const description = ref()
     gap:$spacing*4;
 }
 .upload {
-    flex-basis:15rem
+    flex-basis:15rem;
+    height:15rem
 }
 .pageManagerSettingPanelInnerBookCoverUploadLimit {
     flex:1;
