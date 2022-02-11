@@ -1,7 +1,7 @@
 <template>
-  <bubble-menu v-if="props.editor" :editor="props.editor">
+  <bubble-menu v-if="props.editor" :editor="props.editor" class="bubbleMenu">
     <!--加粗-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -14,7 +14,7 @@
       <span class="subtitle-1"> 加粗 </span>
     </n-tooltip>
     <!--斜体-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -27,7 +27,7 @@
       <span class="subtitle-1"> 斜体 </span>
     </n-tooltip>
     <!--删除线-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -40,7 +40,7 @@
       <span class="subtitle-1"> 删除线 </span>
     </n-tooltip>
     <!--下划线-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -53,7 +53,7 @@
       <span class="subtitle-1"> 下划线 </span>
     </n-tooltip>
     <!--标题一-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -66,7 +66,7 @@
       <span class="subtitle-1"> 标题一 </span>
     </n-tooltip>
     <!--标题二-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -79,7 +79,7 @@
       <span class="subtitle-1"> 标题二 </span>
     </n-tooltip>
     <!--标题三-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -92,7 +92,7 @@
       <span class="subtitle-1"> 标题三 </span>
     </n-tooltip>
     <!--无序表单-->
-    <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="top" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
@@ -236,6 +236,7 @@ const setLink = () => {
    ** close link popover after save**/
   showLinkPopover.value = false
 }
+
 </script>
 <style lang="scss" scoped>
 .linkPopOverContainer {
@@ -246,4 +247,5 @@ const setLink = () => {
   justify-content: flex-start;
   gap: $spacing * 4;
 }
+
 </style>

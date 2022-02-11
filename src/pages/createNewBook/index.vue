@@ -154,105 +154,106 @@
 
 </script>
 <style lang="scss" scoped>
-
 .container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    background-color: $grey-050;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: $grey-050;
 }
 
 .main {
-    @include tablet {
-        flex: 1;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
+  @include tablet {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 .sidebar {
-    width: 48rem;
-    height: 100%;
-    box-shadow: inset 0 0 6px rgb(0 0 0 / 10%);
-    display: flex;
+  width: 48rem;
+  height: 100%;
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 10%);
+  display: flex;
 }
 .pageContainer {
-    flex: 1;
-    height: 100%;
-    background-color: $grey-300;
-    position: relative;
+  flex: 1;
+  height: 100%;
+  background-color: $grey-300;
+  position: relative;
 }
 .pageLayOutContainer {
-    @include laptop {
-        width: 100%;
-        max-width: 82rem;
-        margin: $spacing*10 auto 0 ;
-        background-color: $white;
-        box-shadow: $shadow-2;
-    }
-    /**
+  @include laptop {
+    width: 100%;
+    max-width: 82rem;
+    margin: $spacing * 10 auto 0;
+    background-color: $white;
+    box-shadow: $shadow-2;
+  }
+  /**
      ** style tiptap bubble menu */
-    & ::v-deep(.tippy-box) {
-      box-shadow: $shadow-4;
-      border-radius: $border-radius * 2;
-      max-width:36rem!important
+  & ::v-deep(.tippy-box) {
+    box-shadow: $shadow-4;
+    border-radius: $border-radius * 2;
+    background-color: $black;
+    max-width: 36rem !important;
+    & .n-button {
+      color: $white;
     }
-
+  }
 }
 
 .page {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .tabs__container {
-    //** orientation vertical */
+  //** orientation vertical */
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: $spacing * 6;
+
+  & ::v-deep(.n-tabs-nav) {
+    flex-basis: 6rem;
+    align-self: stretch;
     display: flex;
-    height:100%;
+  }
+  & ::v-deep(.n-tabs-rail) {
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: $spacing * 6;
-
-    & ::v-deep(.n-tabs-nav) {
-        flex-basis: 6rem;
-        align-self: stretch;
-        display: flex;
+    gap: $spacing * 2;
+  }
+  & ::v-deep(.n-tabs-tab-wrapper) {
+    flex-grow: 0;
+    width: 100%;
+  }
+  & ::v-deep(.tab-pane-container) {
+    align-self: stretch;
+    padding: 0;
+    overflow: hidden;
+  }
+  & ::v-deep(.n-tabs-tab) {
+    flex-basis: 100%;
+    padding: 0;
+  }
+  & ::v-deep(.n-tabs-tab__label) {
+    flex-basis: 100%;
+    width: 48px;
+    height: 60px;
+    padding: $spacing $spacing * 2;
+  }
+  & ::v-deep(.n-tabs-tab--active) {
+    .listItem,
+    .listItem__text--paragraph {
+      color: $blue-600;
     }
-    & ::v-deep(.n-tabs-rail) {
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: $spacing * 2;
-    }
-    & ::v-deep(.n-tabs-tab-wrapper) {
-        flex-grow: 0;
-        width: 100%;
-    }
-    & ::v-deep(.tab-pane-container) {
-        align-self: stretch;
-        padding: 0;
-        overflow: hidden;
-    }
-    & ::v-deep(.n-tabs-tab) {
-        flex-basis: 100%;
-        padding: 0;
-    }
-    & ::v-deep(.n-tabs-tab__label) {
-        flex-basis: 100%;
-        width: 48px;
-        height: 60px;
-        padding: $spacing $spacing * 2;
-    }
-    & ::v-deep(.n-tabs-tab--active) {
-        .listItem,
-        .listItem__text--paragraph {
-            color: $blue-600;
-        }
-    }
+  }
 }
-
 </style>

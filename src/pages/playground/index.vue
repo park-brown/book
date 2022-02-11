@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <div id="area">
-      123
-    </div>
+    <div id="area" />
   </div>
 </template>
 <script  lang="ts">

@@ -31,6 +31,7 @@ specifiers:
   '@vueuse/integrations': ^7.5.3
   epubjs: ^0.3.92
   eslint: ^8.4.1
+  katex: ^0.15.2
   naive-ui: ^2.22.0
   nanoid: ^3.2.0
   pinia: ^2.0.9
@@ -73,6 +74,7 @@ dependencies:
   '@vueuse/firebase': 7.5.5_vue@3.2.24
   '@vueuse/integrations': 7.5.3_vue@3.2.24
   epubjs: 0.3.92
+  katex: 0.15.2
   nanoid: 3.2.0
   pinia: 2.0.9_typescript@4.5.2+vue@3.2.24
   pinia-plugin-persist: 0.0.93_vue@3.2.24
@@ -2566,6 +2568,11 @@ packages:
       delayed-stream: 1.0.0
     dev: true
 
+  /commander/8.3.0:
+    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
+    engines: {node: '>= 12'}
+    dev: false
+
   /concat-map/0.0.1:
     resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: true
@@ -4613,6 +4620,13 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /katex/0.15.2:
+    resolution: {integrity: sha512-FfZ/f6f8bQdLmJ3McXDNTkKenQkoXkItpW0I9bsG2wgb+8JAY5bwpXFtI8ZVrg5hc1wo1X/UIhdkVMpok46tEQ==}
+    hasBin: true
+    dependencies:
+      commander: 8.3.0
+    dev: false
 
   /klona/2.0.5:
     resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}

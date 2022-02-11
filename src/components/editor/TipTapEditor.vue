@@ -2,7 +2,7 @@
   <TipTapFixedMenu :editor="editor" />
   <n-scrollbar style="max-height: 75rem;" class="scrollbar">
     <TipTapBubbleMenu :editor="editor" />
-    <EditorContent :editor="editor" class="TipTapEditor js-toc-content" />
+    <EditorContent :editor="editor" class="TipTapEditor" />
   </n-scrollbar>
 </template>
 <script setup lang="ts">
@@ -270,6 +270,9 @@ const editor = useEditor({
   img {
     max-width: 100%;
     height: auto;
+    &.ProseMirror-selectednode {
+      outline: 3px solid #68CEF8;
+    }
   }
 
   blockquote {
@@ -283,5 +286,4 @@ const editor = useEditor({
     margin: 2rem 0;
   }
 }
-
 </style>

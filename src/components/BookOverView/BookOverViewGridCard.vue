@@ -26,16 +26,8 @@
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
-// const props = defineProps()
-// const goToReadOnlyPage = () => {
-//   bookStore.value.bookId = props.bookId
-//   bookStore.value.bookName = props.bookName
-//   bookStore.value.bookContent = props.bookContent
-//   router.push('readonly')
-// }
-
 const goToEditablePage = () => {
-  router.push('editable')
+  router.push('/createNewBook')
 }
 </script>
 <style lang="scss" scoped>

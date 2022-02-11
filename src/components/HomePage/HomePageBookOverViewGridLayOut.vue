@@ -1,7 +1,7 @@
 <template>
   <!--请求渲染spiner-->
-  <template v-if="isFetching">
-    <n-spin :show="isFetching">
+  <template v-if="false">
+    <n-spin :show="false">
       <n-alert title="获取数据" type="info" />
       <template #description>
         请稍等
@@ -26,13 +26,8 @@
   <template v-if="ready">
     <n-scrollbar style="max-height: 522px;">
       <div class="scrollbarInner">
-        <BookOverViewGridCard
-          v-for="item in data.data"
-          :key="item.bookId"
-          :book-name="item.bookName"
-          :book-content="item.bookContent"
-          :book-id="item.bookId"
-        />
+        <BookOverViewGridCard />
+        <BookOverViewGridCard />
       </div>
     </n-scrollbar>
   </template>
@@ -40,9 +35,9 @@
 
 <script lang="ts" setup>
 
-const ready = ref(false)
+const ready = ref(true)
 const error = ref(false)
-const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
+// const getBookInfoListUrl = import.meta.env.VITE_GETBOOKINFOLIST_BASEURL
 // const { isFetching, isFinished, data } = useFetch(getBookInfoListUrl, {
 //   afterFetch(ctx) {
 //     const parseBookContent = ctx.data.data.slice().map((item: any) => {

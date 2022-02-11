@@ -45,18 +45,18 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useMessage } from 'naive-ui'
+// import { useMessage } from 'naive-ui'
 
-const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
+// const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
 const router = useRouter()
-const message = useMessage()
+// const message = useMessage()
 const goToCreateNewBook = () => {
   router.push('/createNewBook')
 }
 // const { isFetching, data, execute, post } = useFetch(insertBookInfoBaseUrl, {
 //   immediate: false,
 // }).json()
-const title = ref<string>('')
+// const title = ref<string>('')
 //* *最多3s一次 */
 // const debouncedFn = useDebounceFn(() => {
 //   const uploadData = new FormData()
@@ -85,7 +85,7 @@ const title = ref<string>('')
 //       { duration: 3000 })
 //   }
 // })
-const showModal = ref(false)
+// const showModal = ref(false)
 //* life cycle */
 
 </script>
