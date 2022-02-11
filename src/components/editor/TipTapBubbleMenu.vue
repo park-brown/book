@@ -138,7 +138,7 @@
               :class="{ 'is-active': editor.isActive('link') }"
               @click="setLink"
             >
-              保存
+              添加
             </n-button>
           </div>
         </n-popover>

@@ -37,6 +37,7 @@
 const router = useRouter()
 const goToUpload = () => {
   router.push('/upload')
+  console.log('run')
 }
 const emits = defineEmits(['open:flex', 'open:grid'])
 const openFlex = () => {

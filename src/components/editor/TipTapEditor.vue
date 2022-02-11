@@ -19,9 +19,11 @@ import { Table } from '@tiptap/extension-table'
 import { TableRow } from '@tiptap/extension-table-row'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
+import { Image } from '@tiptap/extension-image'
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
+
 const editor = useEditor({
   content: '',
   extensions: [
@@ -44,6 +46,9 @@ const editor = useEditor({
     TableRow,
     TableHeader,
     TableCell,
+    Image.configure({
+      inline: true,
+    }),
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -52,7 +57,7 @@ const editor = useEditor({
     // send the content to an API here
     console.log('json:', json)
     /**
-     ** 中文模式下计算字数取 character */
+     ** calc character */
     characterCount.value = editor.storage.characterCount.characters()
     // console.log('char:', characterCount.value)
     /**
@@ -84,7 +89,7 @@ const editor = useEditor({
           }
 
           /**
-           ** headings [...,1,2] */
+           ** headings [...,1,1,2] */
           /**
            ** find the lastest heading-1  */
           const lastHeading_1 = treeData[treeData.length - 1]
@@ -112,7 +117,7 @@ const editor = useEditor({
             label,
           }
           /**
-           ** headings [...,1,2,3] */
+           ** headings [...,1,2,2,3] */
 
           /**
            ** find the lastest heading-2  */

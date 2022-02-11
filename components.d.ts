@@ -75,6 +75,7 @@ declare module 'vue' {
     IGridiconsHeadingH1: typeof import('~icons/gridicons/heading-h1')['default']
     IGridiconsHeadingH2: typeof import('~icons/gridicons/heading-h2')['default']
     IGridiconsHeadingH3: typeof import('~icons/gridicons/heading-h3')['default']
+    IIcBaselineAddPhotoAlternate: typeof import('~icons/ic/baseline-add-photo-alternate')['default']
     IIcomoonFreeNewspaper: typeof import('~icons/icomoon-free/newspaper')['default']
     IRiDeleteRow: typeof import('~icons/ri/delete-row')['default']
     IRiInsertColumnLeft: typeof import('~icons/ri/insert-column-left')['default']
