@@ -1,5 +1,16 @@
 <template>
   <div v-if="props.editor" class="TipTapFixedMenu">
+    <!--切换字体-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-tree-select
+          :options="fontOptions"
+          default-value="微软雅黑"
+          @update:value="handleFontUpdateValue"
+        />
+      </template>
+      <span class="subtitle-1"> 切换字体 </span>
+    </n-tooltip>
     <!--插入表格-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
@@ -129,55 +140,98 @@
       </template>
       <span class="subtitle-1"> 添加图片 </span>
     </n-tooltip>
-    <!--切换字体-->
+    <!--添加媒体-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
-        <n-tree-select
-          :options="fontOptions"
-          default-value="宋体"
-          @update:value="handleFontUpdateValue"
-        />
+        <n-popover
+          :show="showMediaPopover"
+          placement="bottom"
+          trigger="click"
+          :on-clickoutside="() => { showMediaPopover = false }"
+        >
+          <template #trigger>
+            <n-button :bordered="false" @click="showMediaPopover = !showMediaPopover">
+              <i-akar-icons-video />
+            </n-button>
+          </template>
+          <div class="AddMediaPopOverContainer">
+            <n-input v-model:value="MediaUrl" type="text" placeholder="视频地址" />
+            <n-input v-model:value="MediaWidth" type="text" placeholder="视频宽度" />
+            <n-input v-model:value="MediaHeight" type="text" placeholder="视频高度" />
+            <div class="popover__action">
+              <n-button
+                @click="showMediaPopover = false"
+              >
+                取消
+              </n-button>
+              <n-button
+                @click="addMedia"
+              >
+                添加
+              </n-button>
+            </div>
+          </div>
+        </n-popover>
       </template>
-      <span class="subtitle-1"> 切换字体 </span>
+      <span class="subtitle-1"> 添加媒体 </span>
     </n-tooltip>
   </div>
 </template>
 <script lang="ts" setup>
 const props = defineProps(['editor'])
 const showImagePopover = ref(false)
+const showMediaPopover = ref(false)
 const ImageUrl = ref('')
+const MediaUrl = ref('')
+const MediaWidth = ref()
+const MediaHeight = ref()
 const addImage = () => {
   if (ImageUrl.value)
     props.editor.chain().focus().setImage({ src: ImageUrl.value }).run()
   showImagePopover.value = false
 }
+const addMedia = () => {
+  if (MediaUrl.value)
+    props.editor.chain().focus().setExternalVideo({ src: MediaUrl.value, width: MediaWidth.value, height: MediaHeight.value }).run()
+  showMediaPopover.value = false
+  MediaUrl.value = ''
+  MediaWidth.value = ''
+  MediaHeight.value = ''
+}
 const fontOptions = ref([{
+  label: '微软雅黑',
+  key: '微软雅黑',
+}, {
   label: '宋体',
   key: '宋体',
 }, {
   label: '楷体',
   key: '楷体',
-}, {
-  label: '微软雅黑',
-  key: '微软雅黑',
 }])
 /**  avaiable font family
- ** 宋体、楷体、微软雅黑 */
+ ** 宋体、楷体、微软雅黑,Comic Sans MS */
 
 const handleFontUpdateValue = (value: string | number | Array<string | number> | null) => {
-  console.log('value:', value)
   props.editor.chain().focus().setFontFamily(`${value}`).run()
 }
 </script>
 <style lang="scss" scoped>
 .TipTapFixedMenu {
     width:100%;
-    height:4rem;
+    padding:$spacing*2 $spacing*4;
     display:flex;
     align-items:center;
     background-color:$grey-100;
 }
 .AddImagePopOverContainer {
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content: flex-start;
+  gap:$spacing*4;
+}
+.AddMediaPopOverContainer {
   width:100%;
   display:flex;
   flex-direction:column;

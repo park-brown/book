@@ -22,6 +22,7 @@ import { TableHeader } from '@tiptap/extension-table-header'
 import { Image } from '@tiptap/extension-image'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
+import ExternalVideo from './externalVideo'
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
@@ -53,6 +54,7 @@ const editor = useEditor({
     }),
     TextStyle,
     FontFamily,
+    ExternalVideo,
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -289,5 +291,6 @@ const editor = useEditor({
     border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
+
 }
 </style>

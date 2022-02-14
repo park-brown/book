@@ -72,6 +72,7 @@ declare module 'vue' {
     IFluentDocumentOnePage24Filled: typeof import('~icons/fluent/document-one-page24-filled')['default']
     IFluentDocumentOnePage24Regular: typeof import('~icons/fluent/document-one-page24-regular')['default']
     IFoundationPhoto: typeof import('~icons/foundation/photo')['default']
+    IFrameView: typeof import('./src/components/editor/IFrameView.vue')['default']
     IGgInsertBeforeR: typeof import('~icons/gg/insert-before-r')['default']
     IGridiconsHeadingH1: typeof import('~icons/gridicons/heading-h1')['default']
     IGridiconsHeadingH2: typeof import('~icons/gridicons/heading-h2')['default']
