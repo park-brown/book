@@ -19,9 +19,9 @@ import { Table } from '@tiptap/extension-table'
 import { TableRow } from '@tiptap/extension-table-row'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
-import { Image } from '@tiptap/extension-image'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
+import { EnhanceImage } from './enhanceImage.ts'
 import ExternalVideo from './externalVideo'
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
@@ -49,9 +49,7 @@ const editor = useEditor({
     TableRow,
     TableHeader,
     TableCell,
-    Image.configure({
-      inline: true,
-    }),
+    EnhanceImage,
     TextStyle,
     FontFamily,
     ExternalVideo,
@@ -275,7 +273,6 @@ const editor = useEditor({
 
   img {
     max-width: 100%;
-    height: auto;
     &.ProseMirror-selectednode {
       outline: 3px solid #68CEF8;
     }

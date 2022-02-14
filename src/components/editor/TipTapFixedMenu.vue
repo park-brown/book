@@ -122,7 +122,9 @@
             </n-button>
           </template>
           <div class="AddImagePopOverContainer">
-            <n-input v-model:value="ImageUrl" type="text" placeholder="链接地址" />
+            <n-input v-model:value="ImageUrl" type="text" placeholder="图片地址" />
+            <n-input v-model:value="ImageWidth" type="text" placeholder="图片宽度" />
+            <n-input v-model:value="ImageHeight" type="text" placeholder="图片高度" />
             <div class="popover__action">
               <n-button
                 @click="showImagePopover = false"
@@ -140,7 +142,7 @@
       </template>
       <span class="subtitle-1"> 添加图片 </span>
     </n-tooltip>
-    <!--添加媒体-->
+    <!--添加多媒体-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
         <n-popover
@@ -155,9 +157,9 @@
             </n-button>
           </template>
           <div class="AddMediaPopOverContainer">
-            <n-input v-model:value="MediaUrl" type="text" placeholder="视频地址" />
-            <n-input v-model:value="MediaWidth" type="text" placeholder="视频宽度" />
-            <n-input v-model:value="MediaHeight" type="text" placeholder="视频高度" />
+            <n-input v-model:value="MediaUrl" type="text" placeholder="媒体地址" />
+            <n-input v-model:value="MediaWidth" type="text" placeholder="媒体宽度" />
+            <n-input v-model:value="MediaHeight" type="text" placeholder="媒体高度" />
             <div class="popover__action">
               <n-button
                 @click="showMediaPopover = false"
@@ -173,7 +175,7 @@
           </div>
         </n-popover>
       </template>
-      <span class="subtitle-1"> 添加媒体 </span>
+      <span class="subtitle-1"> 添加多媒体 </span>
     </n-tooltip>
   </div>
 </template>
@@ -182,13 +184,18 @@ const props = defineProps(['editor'])
 const showImagePopover = ref(false)
 const showMediaPopover = ref(false)
 const ImageUrl = ref('')
+const ImageWidth = ref()
+const ImageHeight = ref()
 const MediaUrl = ref('')
 const MediaWidth = ref()
 const MediaHeight = ref()
 const addImage = () => {
   if (ImageUrl.value)
-    props.editor.chain().focus().setImage({ src: ImageUrl.value }).run()
+    props.editor.chain().focus().setImage({ src: ImageUrl.value, width: ImageWidth.value, height: ImageWidth.value }).run()
   showImagePopover.value = false
+  ImageUrl.value = ''
+  ImageWidth.value = ''
+  ImageHeight.value = ''
 }
 const addMedia = () => {
   if (MediaUrl.value)
