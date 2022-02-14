@@ -20,6 +20,8 @@ import { TableRow } from '@tiptap/extension-table-row'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { Image } from '@tiptap/extension-image'
+import { TextStyle } from '@tiptap/extension-text-style'
+import { FontFamily } from '@tiptap/extension-font-family'
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
@@ -49,6 +51,8 @@ const editor = useEditor({
     Image.configure({
       inline: true,
     }),
+    TextStyle,
+    FontFamily,
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {

@@ -129,6 +129,17 @@
       </template>
       <span class="subtitle-1"> 添加图片 </span>
     </n-tooltip>
+    <!--切换字体-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-tree-select
+          :options="fontOptions"
+          default-value="宋体"
+          @update:value="handleFontUpdateValue"
+        />
+      </template>
+      <span class="subtitle-1"> 切换字体 </span>
+    </n-tooltip>
   </div>
 </template>
 <script lang="ts" setup>
@@ -140,7 +151,23 @@ const addImage = () => {
     props.editor.chain().focus().setImage({ src: ImageUrl.value }).run()
   showImagePopover.value = false
 }
+const fontOptions = ref([{
+  label: '宋体',
+  key: '宋体',
+}, {
+  label: '楷体',
+  key: '楷体',
+}, {
+  label: '微软雅黑',
+  key: '微软雅黑',
+}])
+/**  avaiable font family
+ ** 宋体、楷体、微软雅黑 */
 
+const handleFontUpdateValue = (value: string | number | Array<string | number> | null) => {
+  console.log('value:', value)
+  props.editor.chain().focus().setFontFamily(`${value}`).run()
+}
 </script>
 <style lang="scss" scoped>
 .TipTapFixedMenu {
@@ -165,5 +192,9 @@ const addImage = () => {
   justify-content: center;
   gap:$spacing*4;
 }
-
+.TipTapFixedMenu {
+  & ::v-deep(.n-tree-select) {
+    width:12rem;
+  }
+}
 </style>

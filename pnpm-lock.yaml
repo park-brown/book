@@ -9,6 +9,7 @@ specifiers:
   '@tiptap/extension-bubble-menu': ^2.0.0-beta.55
   '@tiptap/extension-bullet-list': ^2.0.0-beta.26
   '@tiptap/extension-character-count': ^2.0.0-beta.24
+  '@tiptap/extension-font-family': ^2.0.0-beta.21
   '@tiptap/extension-image': ^2.0.0-beta.26
   '@tiptap/extension-link': ^2.0.0-beta.36
   '@tiptap/extension-list-item': ^2.0.0-beta.20
@@ -18,6 +19,7 @@ specifiers:
   '@tiptap/extension-table-header': ^2.0.0-beta.22
   '@tiptap/extension-table-row': ^2.0.0-beta.19
   '@tiptap/extension-text-align': ^2.0.0-beta.29
+  '@tiptap/extension-text-style': ^2.0.0-beta.23
   '@tiptap/extension-underline': ^2.0.0-beta.23
   '@tiptap/html': ^2.0.0-beta.173
   '@tiptap/starter-kit': ^2.0.0-beta.183
@@ -56,7 +58,8 @@ dependencies:
   '@tiptap/extension-blockquote': 2.0.0-beta.26
   '@tiptap/extension-bubble-menu': 2.0.0-beta.55
   '@tiptap/extension-bullet-list': 2.0.0-beta.26
-  '@tiptap/extension-character-count': 2.0.0-beta.24
+  '@tiptap/extension-character-count': 2.0.0-beta.24_b30e287f4561cb13fae8e63f764ac1e3
+  '@tiptap/extension-font-family': 2.0.0-beta.21_b30e287f4561cb13fae8e63f764ac1e3
   '@tiptap/extension-image': 2.0.0-beta.26
   '@tiptap/extension-link': 2.0.0-beta.36
   '@tiptap/extension-list-item': 2.0.0-beta.20
@@ -66,6 +69,7 @@ dependencies:
   '@tiptap/extension-table-header': 2.0.0-beta.22
   '@tiptap/extension-table-row': 2.0.0-beta.19
   '@tiptap/extension-text-align': 2.0.0-beta.29
+  '@tiptap/extension-text-style': 2.0.0-beta.23
   '@tiptap/extension-underline': 2.0.0-beta.23
   '@tiptap/html': 2.0.0-beta.173
   '@tiptap/starter-kit': 2.0.0-beta.183
@@ -867,11 +871,13 @@ packages:
       '@tiptap/core': 2.0.0-beta.174
     dev: false
 
-  /@tiptap/extension-character-count/2.0.0-beta.24:
+  /@tiptap/extension-character-count/2.0.0-beta.24_b30e287f4561cb13fae8e63f764ac1e3:
     resolution: {integrity: sha512-zMe+iNmHypvGQop5yV6xLetXvgEx7oMXJUvX+WwvtjZwx+/jJKLOzsR5EVt0vY/T5P5VCC8hkTseQhgrv4p72w==}
     peerDependencies:
       '@tiptap/core': ^2.0.0-beta.1
       '@tiptap/extension-text-style': ^2.0.0-beta.1
+    dependencies:
+      '@tiptap/extension-text-style': 2.0.0-beta.23
     dev: false
 
   /@tiptap/extension-code-block/2.0.0-beta.37_@tiptap+core@2.0.0-beta.174:
@@ -917,6 +923,15 @@ packages:
       prosemirror-state: 1.3.4
       prosemirror-view: 1.23.6
       tippy.js: 6.3.7
+    dev: false
+
+  /@tiptap/extension-font-family/2.0.0-beta.21_b30e287f4561cb13fae8e63f764ac1e3:
+    resolution: {integrity: sha512-5KVCtuEBf1QyZxs/IOL0CPDtB5X3rk8QdDB8fB+UlASa6c/Dq59Uo2aObGOgAWNDdY0Vd9MmuDTvnJKP2LI2Ng==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+      '@tiptap/extension-text-style': ^2.0.0-beta.1
+    dependencies:
+      '@tiptap/extension-text-style': 2.0.0-beta.23
     dev: false
 
   /@tiptap/extension-gapcursor/2.0.0-beta.34_@tiptap+core@2.0.0-beta.174:
@@ -1061,6 +1076,12 @@ packages:
 
   /@tiptap/extension-text-align/2.0.0-beta.29:
     resolution: {integrity: sha512-FNGpl0tVtgG7AK9kVWF/+CGYHta05NpoME4/j6+vhNlZLBNXRA+AKg7W5T8UxmtaC9yGoJsBs2X8M9eCxWVaEQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
+    dev: false
+
+  /@tiptap/extension-text-style/2.0.0-beta.23:
+    resolution: {integrity: sha512-h/7o//RB4WRrLKWV7E5eFk7tZnfjH0Wt9klixOmvTmus6dm00a7r6wTuaT1GNjfPOgClP3K185lTA5rrdgrxRA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0-beta.1
     dev: false

@@ -17,13 +17,13 @@ const scroll = (__: any, options: TreeOption[]) => {
   const h2 = document.getElementsByTagName('h2')
   const h3 = document.getElementsByTagName('h3')
   const targetH1 = Array.from(h1).find(h1 =>
-    h1.innerHTML === options[0].label,
+    h1.textContent === options[0].label,
   )
   const targetH2 = Array.from(h2).find(h2 =>
-    h2.innerHTML === options[0].label,
+    h2.textContent === options[0].label,
   )
   const targetH3 = Array.from(h3).find(h3 =>
-    h3.innerHTML === options[0].label,
+    h3.textContent === options[0].label,
   )
   targetH1?.scrollIntoView()
   targetH2?.scrollIntoView()

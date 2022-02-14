@@ -1,10 +1,28 @@
 <template>
   <div class="container">
+    <div class="buttonGroup">
+      <n-button @click="next">
+        next
+      </n-button>
+      <n-button @click="pre">
+        pre
+      </n-button>
+    </div>
     <div id="area" />
   </div>
 </template>
-<script  lang="ts">
+<script  lang="ts" setup>
+import ePub from 'epubjs'
 
+const book = ePub('./test.epub')
+const rendition = book.renderTo('area', { width: 900, height: 600, flow: 'paginated', allowScriptedContent: true })
+const displayed = rendition.display()
+const next = () => {
+  rendition.next()
+}
+const pre = () => {
+  rendition.prev()
+}
 </script>
 <style lang="scss" scoped>
 .container {
@@ -18,4 +36,8 @@
   padding: $spacing * 8;
   overflow: hidden;
 }
+// #area {
+//   width:60rem;
+//   height:80rem;
+// }
 </style>

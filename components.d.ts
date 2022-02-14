@@ -66,6 +66,7 @@ declare module 'vue' {
     IDashiconsVideoAlt3: typeof import('~icons/dashicons/video-alt3')['default']
     IEvaArrowBackFill: typeof import('~icons/eva/arrow-back-fill')['default']
     IEvaArrowBackOutline: typeof import('~icons/eva/arrow-back-outline')['default']
+    IFaSolidFont: typeof import('~icons/fa-solid/font')['default']
     IFaSolidMask: typeof import('~icons/fa-solid/mask')['default']
     IFaSolidSave: typeof import('~icons/fa-solid/save')['default']
     IFluentDocumentOnePage24Filled: typeof import('~icons/fluent/document-one-page24-filled')['default']
