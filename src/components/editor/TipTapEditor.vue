@@ -21,12 +21,13 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
-import { EnhanceImage } from './enhanceImage.ts'
+import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
+import VueComponent from './Math'
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
-
+// '<vue-component count="0"></vue-component>'
 const editor = useEditor({
   content: '',
   extensions: [
@@ -53,6 +54,7 @@ const editor = useEditor({
     TextStyle,
     FontFamily,
     ExternalVideo,
+    VueComponent,
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {

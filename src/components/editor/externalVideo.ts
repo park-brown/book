@@ -57,7 +57,7 @@ export default Node.create({
   },
   addCommands() {
     return {
-      setExternalVideo: options => ({ commands }) => {
+      setExternalVideo: (options: any) => ({ commands }) => {
         return commands.insertContent({
           type: this.name,
           attrs: options,

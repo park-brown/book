@@ -15,6 +15,7 @@
 import ePub from 'epubjs'
 
 const book = ePub('./test.epub')
+
 const rendition = book.renderTo('area', { width: 900, height: 600, flow: 'paginated', allowScriptedContent: true })
 const displayed = rendition.display()
 const next = () => {

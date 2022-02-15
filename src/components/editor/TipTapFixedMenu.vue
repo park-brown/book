@@ -177,6 +177,18 @@
       </template>
       <span class="subtitle-1"> 添加多媒体 </span>
     </n-tooltip>
+    <!--数学公式-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-button
+          :bordered="false"
+          @click="editor.chain().focus().insertMath().run()"
+        >
+          <i-carbon-function-math />
+        </n-button>
+      </template>
+      <span class="subtitle-1"> 数学公式 </span>
+    </n-tooltip>
   </div>
 </template>
 <script lang="ts" setup>

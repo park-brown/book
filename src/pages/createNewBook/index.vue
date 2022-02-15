@@ -133,8 +133,6 @@
       </div>
       <section class="pageContainer">
         <div class="pageLayOutContainer">
-          <!-- <n-skeleton v-if="!editorInit" height="100%" width="100%" /> -->
-          <!-- <TinyMceEditor @init="handleInit" /> -->
           <TipTapEditor />
         </div>
         <EditorStatusBar />
@@ -143,12 +141,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-/**
- ** tinyMce editor  **/
-// const editorInit = ref(false)
-// const handleInit = () => {
-//   editorInit.value = true
-// }
+
 /**
  ** tiptap editor  **/
 
