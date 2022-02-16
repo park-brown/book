@@ -1,4 +1,9 @@
 <template>
+  <div v-if="isEmpty" class="intro">
+    <n-p class="h6">
+      您追加到文档的标题会显示在此处
+    </n-p>
+  </div>
   <n-tree
     block-line
     :data="TOC.treeData"
@@ -10,6 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { TreeOption } from 'naive-ui'
+
 import { useTableOfContent } from '~/stores/TableOfContent'
 const TOC = useTableOfContent()
 const scroll = (__: any, options: TreeOption[]) => {
@@ -29,6 +35,13 @@ const scroll = (__: any, options: TreeOption[]) => {
   targetH2?.scrollIntoView()
   targetH3?.scrollIntoView()
 }
+const isEmpty = ref(true)
+watch(TOC, () => {
+  TOC.treeData.length === 0 ? isEmpty.value = true : isEmpty.value = false
+})
 </script>
 <style lang="scss" scoped>
+.intro {
+  position:absolute;
+}
 </style>

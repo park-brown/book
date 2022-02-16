@@ -9,6 +9,7 @@ specifiers:
   '@tiptap/extension-bullet-list': ^2.0.0-beta.26
   '@tiptap/extension-character-count': ^2.0.0-beta.24
   '@tiptap/extension-font-family': ^2.0.0-beta.21
+  '@tiptap/extension-highlight': ^2.0.0-beta.33
   '@tiptap/extension-image': ^2.0.0-beta.26
   '@tiptap/extension-link': ^2.0.0-beta.36
   '@tiptap/extension-list-item': ^2.0.0-beta.20
@@ -40,6 +41,7 @@ specifiers:
   pinia: ^2.0.9
   pinia-plugin-persist: ^0.0.93
   pnpm: ^6.23.6
+  prosemirror-state: ^1.3.4
   sass: ^1.45.0
   sass-loader: ^12.4.0
   typescript: ^4.5.2
@@ -61,6 +63,7 @@ dependencies:
   '@tiptap/extension-bullet-list': 2.0.0-beta.26
   '@tiptap/extension-character-count': 2.0.0-beta.24_b30e287f4561cb13fae8e63f764ac1e3
   '@tiptap/extension-font-family': 2.0.0-beta.21_b30e287f4561cb13fae8e63f764ac1e3
+  '@tiptap/extension-highlight': 2.0.0-beta.33
   '@tiptap/extension-image': 2.0.0-beta.26
   '@tiptap/extension-link': 2.0.0-beta.36
   '@tiptap/extension-list-item': 2.0.0-beta.20
@@ -82,6 +85,7 @@ dependencies:
   nanoid: 3.2.0
   pinia: 2.0.9_typescript@4.5.2+vue@3.2.24
   pinia-plugin-persist: 0.0.93_vue@3.2.24
+  prosemirror-state: 1.3.4
   vue: 3.2.24
   vue-demi: 0.12.1_vue@3.2.24
   vue-mathjax-next: 0.0.4
@@ -953,6 +957,12 @@ packages:
       '@tiptap/core': ^2.0.0-beta.1
     dependencies:
       '@tiptap/core': 2.0.0-beta.174
+    dev: false
+
+  /@tiptap/extension-highlight/2.0.0-beta.33:
+    resolution: {integrity: sha512-TXyMiCcY5a0w5UFax350xU+T79GKJw2XwJ6Punc6sY2RRRgKaEbN1ZF0JCdQhQvD1ooKImHzCRYR8Pldb0xgfg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.1
     dev: false
 
   /@tiptap/extension-history/2.0.0-beta.21_@tiptap+core@2.0.0-beta.174:

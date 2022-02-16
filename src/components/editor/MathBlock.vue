@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper class="mathBlock">
-    <div class="mathBlockHeader">
+    <div v-if="props.selected || isFocus" class="mathBlockHeader">
       <div class="mathBlockDescription">
         <n-p class="h6">
           块级公式
@@ -20,6 +20,8 @@
       v-model:value="formula"
       type="textarea"
       placeholder="输入lateX公式"
+      @focus="isFocus = true"
+      @blur="() => {isFocus = false;isEditting= false}"
     />
     <vue-mathjax v-if="!isEditting" :formula="formula" />
   </node-view-wrapper>
@@ -28,9 +30,9 @@
 <script lang="ts" setup>
 
 import { NodeViewWrapper, nodeViewProps } from '@tiptap/vue-3'
-// '$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$'
-const formula = ref('')
-const isEditting = ref(true)
+const formula = ref('$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$')
+const isEditting = ref(false)
+const isFocus = ref(false)
 const props = defineProps(nodeViewProps)
 
 watch(formula, () => {
@@ -38,12 +40,6 @@ watch(formula, () => {
     formula: formula.value,
   })
 })
-// const increase = () => {
-//   props.updateAttributes({
-//     count: props.node.attrs.count + 1,
-//   })
-// }
-
 </script>
 
 <style lang="scss" scoped>

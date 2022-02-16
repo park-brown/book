@@ -11,6 +11,32 @@
       </template>
       <span class="subtitle-1"> 切换字体 </span>
     </n-tooltip>
+    <!--撤销-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-button
+          :bordered="false"
+          :disabled="!editor.can().undo()"
+          @click="editor.chain().focus().undo().run()"
+        >
+          <i-ci-undo />
+        </n-button>
+      </template>
+      <span class="subtitle-1"> 撤销(Ctrl+Z) </span>
+    </n-tooltip>
+    <!--恢复-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-button
+          :bordered="false"
+          :disabled="!editor.can().redo()"
+          @click="editor.chain().focus().redo().run()"
+        >
+          <i-ci-redo />
+        </n-button>
+      </template>
+      <span class="subtitle-1"> 恢复(Ctrl+Y) </span>
+    </n-tooltip>
     <!--插入表格-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
