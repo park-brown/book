@@ -54,6 +54,7 @@ specifiers:
   vue: ^3.2.24
   vue-demi: ^0.12.1
   vue-mathjax-next: ^0.0.4
+  vue-plyr: ^7.0.0
   vue-router: ^4.0.12
 
 dependencies:
@@ -89,6 +90,7 @@ dependencies:
   vue: 3.2.24
   vue-demi: 0.12.1_vue@3.2.24
   vue-mathjax-next: 0.0.4
+  vue-plyr: 7.0.0
   vue-router: 4.0.12_vue@3.2.24
 
 devDependencies:
@@ -2682,6 +2684,10 @@ packages:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
     dev: true
 
+  /custom-event-polyfill/1.0.7:
+    resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
+    dev: false
+
   /d/1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
     dependencies:
@@ -4752,6 +4758,10 @@ packages:
       - zen-observable
     dev: true
 
+  /loadjs/4.2.0:
+    resolution: {integrity: sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==}
+    dev: false
+
   /local-pkg/0.4.0:
     resolution: {integrity: sha512-2XBWjO/v63JeR1HPzLJxdTVRQDB84Av2p2KtBA5ahvpyLUPubcAU6iXlAJrONcY7aSqgJhXxElAnKtnYsRolPQ==}
     engines: {node: '>=14'}
@@ -5578,6 +5588,10 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
+  /rangetouch/2.0.1:
+    resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: true
@@ -6393,6 +6407,10 @@ packages:
       punycode: 2.1.1
     dev: true
 
+  /url-polyfill/1.1.12:
+    resolution: {integrity: sha512-mYFmBHCapZjtcNHW0MDq9967t+z4Dmg5CJ0KqysK3+ZbyoNOWQHksGCTWwDhxGXllkWlOc10Xfko6v4a3ucM6A==}
+    dev: false
+
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
 
@@ -6574,6 +6592,13 @@ packages:
     resolution: {integrity: sha512-8M+dUNc3j5IhC/gLVxqGoT7QjgJU8dMTjrCpC5qVwTcKvp2Iyxyulltv45UXWCm9UPC28viplP964Y0LZYiGMQ==}
     dev: false
 
+  /vue-plyr/7.0.0:
+    resolution: {integrity: sha512-NvbO/ZzV1IxlBQQbQlon5Sk8hKuGAj3k4k0XVdi7gM4oSqu8mZMhJ3WM3FfAtNfV790jbLnb8P3dHYqaBqIv6g==}
+    dependencies:
+      plyr: github.com/sampotts/plyr/1b835cb657b7a86e574f88ba7f7215d1fcafc4b4
+      vue: 2.6.14
+    dev: false
+
   /vue-router/4.0.12_vue@3.2.24:
     resolution: {integrity: sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg==}
     peerDependencies:
@@ -6581,6 +6606,10 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.19
       vue: 3.2.24
+    dev: false
+
+  /vue/2.6.14:
+    resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
     dev: false
 
   /vue/3.2.24:
@@ -6884,4 +6913,16 @@ packages:
   /zeed-dom/0.9.19:
     resolution: {integrity: sha512-Em7Rw15NpdOMMVpT0MValA/5RlZCmVTHlPjvBITsD//wyO+g0SWJ7VCVo2hd6hIHztND3RwMaclylJ4AAlfwnQ==}
     engines: {node: '>=14.13.1'}
+    dev: false
+
+  github.com/sampotts/plyr/1b835cb657b7a86e574f88ba7f7215d1fcafc4b4:
+    resolution: {tarball: https://codeload.github.com/sampotts/plyr/tar.gz/1b835cb657b7a86e574f88ba7f7215d1fcafc4b4}
+    name: plyr
+    version: 3.6.9
+    dependencies:
+      core-js: 3.20.3
+      custom-event-polyfill: 1.0.7
+      loadjs: 4.2.0
+      rangetouch: 2.0.1
+      url-polyfill: 1.1.12
     dev: false

@@ -25,6 +25,7 @@ import { FontFamily } from '@tiptap/extension-font-family'
 import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
 import MathBlock from './Math'
+import Audio from './Audio'
 import { useTableOfContent } from '~/stores/TableOfContent'
 /**
  ** import over */
@@ -57,6 +58,7 @@ const editor = useEditor({
     FontFamily,
     ExternalVideo,
     MathBlock,
+    Audio,
     // Highlight,
   ],
   // triggered on every change

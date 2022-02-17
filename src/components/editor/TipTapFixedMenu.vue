@@ -203,6 +203,39 @@
       </template>
       <span class="subtitle-1"> 添加多媒体 </span>
     </n-tooltip>
+    <!--添加音频-->
+    <n-tooltip placement="bottom" trigger="hover">
+      <template #trigger>
+        <n-popover
+          :show="showAudioPopover"
+          placement="bottom"
+          trigger="click"
+          :on-clickoutside="() => { showAudioPopover = false }"
+        >
+          <template #trigger>
+            <n-button :bordered="false" @click="showAudioPopover = !showAudioPopover">
+              <i-ant-design-audio-outlined />
+            </n-button>
+          </template>
+          <div class="AddImagePopOverContainer">
+            <n-input v-model:value="audioUrl" type="text" placeholder="音频地址" />
+            <div class="popover__action">
+              <n-button
+                @click="showAudioPopover = false"
+              >
+                取消
+              </n-button>
+              <n-button
+                @click="addAudio"
+              >
+                添加
+              </n-button>
+            </div>
+          </div>
+        </n-popover>
+      </template>
+      <span class="subtitle-1"> 添加音频 </span>
+    </n-tooltip>
     <!--数学公式-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
@@ -221,12 +254,14 @@
 const props = defineProps(['editor'])
 const showImagePopover = ref(false)
 const showMediaPopover = ref(false)
+const showAudioPopover = ref(false)
 const ImageUrl = ref('')
 const ImageWidth = ref()
 const ImageHeight = ref()
 const MediaUrl = ref('')
 const MediaWidth = ref()
 const MediaHeight = ref()
+const audioUrl = ref('')
 const addImage = () => {
   if (ImageUrl.value)
     props.editor.chain().focus().setImage({ src: ImageUrl.value, width: ImageWidth.value, height: ImageWidth.value }).run()
@@ -243,6 +278,12 @@ const addMedia = () => {
   MediaWidth.value = ''
   MediaHeight.value = ''
 }
+const addAudio = () => {
+  if (audioUrl.value)
+    props.editor.chain().focus().insertAudio({ url: audioUrl.value }).run()
+  showAudioPopover.value = false
+  audioUrl.value = ''
+}
 const fontOptions = ref([{
   label: '微软雅黑',
   key: '微软雅黑',
@@ -254,7 +295,7 @@ const fontOptions = ref([{
   key: '楷体',
 }])
 /**  avaiable font family
- ** 宋体、楷体、微软雅黑,Comic Sans MS */
+ ** 宋体、楷体、微软雅黑 */
 
 const handleFontUpdateValue = (value: string | number | Array<string | number> | null) => {
   props.editor.chain().focus().setFontFamily(`${value}`).run()
