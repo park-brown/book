@@ -21,16 +21,38 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
-// import { Highlight } from '@tiptap/extension-highlight'
+import { Highlight } from '@tiptap/extension-highlight'
 import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
 import MathBlock from './Math'
 import Audio from './Audio'
+import {Comment} from './Comment'
 import { useTableOfContent } from '~/stores/TableOfContent'
+import { useEventListener } from '@vueuse/core'
 /**
  ** import over */
 const TOC = useTableOfContent()
 const characterCount = ref<number>(0)
+
+const allComments = ref<any[]>([]);
+const findCommentsAndStoreValues = () => {
+  const proseMirror = document.querySelector('.ProseMirror');
+  const comments = proseMirror?.querySelectorAll('span[data-comment]');
+  const tempComments: any[] = [];
+  if (!comments) {
+    allComments.value = [];
+    return;
+  }
+  comments.forEach((node) => {
+    const uuid = node.getAttribute('data-comment');
+    useEventListener(node,'click', () => {console.log('current-data-comment:',node.getAttribute('data-comment') )})    
+      tempComments.push({
+        uuid,
+      });
+    
+  });
+  allComments.value = tempComments;
+};
 const editor = useEditor({
   content: '',
   extensions: [
@@ -55,11 +77,12 @@ const editor = useEditor({
     TableCell,
     EnhanceImage,
     TextStyle,
+    Highlight,
     FontFamily,
     ExternalVideo,
     MathBlock,
     Audio,
-    // Highlight,
+    Comment
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -67,10 +90,7 @@ const editor = useEditor({
 
     // send the content to an API here
     console.log('json:', json)
-    /**
-     ** calc character */
-    characterCount.value = editor.storage.characterCount.characters()
-    // console.log('char:', characterCount.value)
+    findCommentsAndStoreValues();
     /**
      **1)get all heading into headings array */
     const headings = []
@@ -156,7 +176,9 @@ const editor = useEditor({
     TOC.treeData = treeData
   },
 })
-
+watch(allComments, () => {
+  console.log('allComments:',allComments.value)
+})
 </script>
 
 <style lang="scss" scoped>

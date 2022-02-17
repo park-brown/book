@@ -198,24 +198,27 @@
       <span class="subtitle-1"> 右对齐(Ctrl+Shift+R) </span>
     </n-tooltip>
     <!--注释-->
-    <!-- <n-tooltip placement="bottom" trigger="hover">
+    <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
         <n-button
           :bordered="false"
-          @click="editor.chain().focus().toggleHighlight({ color: '#ffc078' }).run()"
+          @click="setComment"
         >
           <i-heroicons-outline-annotation />
         </n-button>
       </template>
       <span class="subtitle-1"> 注释 </span>
-    </n-tooltip> -->
+    </n-tooltip>
   </bubble-menu>
 </template>
 <script lang="ts" setup>
 //  :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }"
 import { BubbleMenu } from '@tiptap/vue-3'
+import { useTextSelection } from '@vueuse/core'
+import {nanoid} from 'nanoid'
 const props = defineProps(['editor'])
 const showLinkPopover = ref(false)
+const showCommentPopover = ref(false)
 const link = ref('')
 const setLink = () => {
   const url = link.value
@@ -249,6 +252,16 @@ const setLink = () => {
    ** close link popover after save**/
   showLinkPopover.value = false
 }
+const count = ref(0)
+
+
+const setComment = () => {
+  props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
+  count.value++
+  props.editor.chain().focus().setComment({comment:null,uuid:nanoid()}).run()
+}
+
+
 
 </script>
 <style lang="scss" scoped>
