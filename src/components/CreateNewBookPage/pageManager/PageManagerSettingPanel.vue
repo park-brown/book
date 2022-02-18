@@ -54,7 +54,7 @@
 const title = ref()
 const description = ref()
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .pageManagerSettingPanel {
     width: calc(100% - 32px);
     height:calc(100% - 32px);

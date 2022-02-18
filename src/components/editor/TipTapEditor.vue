@@ -1,7 +1,14 @@
 <template>
   <TipTapFixedMenu :editor="editor" />
   <n-scrollbar style="max-height: 75rem;" class="scrollbar">
-    <TipTapBubbleMenu :editor="editor" />
+    <TipTapBubbleMenu :editor="editor" :is-comment-menu-open="isCommentMenuOpen" @open:comment-menu="openCommentMenu" />
+    <CommentBubbleMenu
+      :is-comment-menu-open="isCommentMenuOpen"
+      :editor="editor"
+      :current-comment="currentComment"
+      @update:comment="updateComment"
+      @close:comment-menu="closeCommentMenu"
+    />
     <EditorContent :editor="editor" class="TipTapEditor" />
   </n-scrollbar>
 </template>
@@ -22,37 +29,58 @@ import { TableHeader } from '@tiptap/extension-table-header'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
 import { Highlight } from '@tiptap/extension-highlight'
+import { useEventListener } from '@vueuse/core'
 import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
 import MathBlock from './Math'
 import Audio from './Audio'
-import {Comment} from './Comment'
+import { Comment } from './Comment'
 import { useTableOfContent } from '~/stores/TableOfContent'
-import { useEventListener } from '@vueuse/core'
 /**
  ** import over */
 const TOC = useTableOfContent()
-const characterCount = ref<number>(0)
-
-const allComments = ref<any[]>([]);
+const allComments = ref<any[]>([])
+interface comment {
+  uuid: string
+  commment: string
+}
+const currentComment = ref<comment>()
+const isCommentMenuOpen = ref(false)
+const setCurrentComment = (e) => {
+  const uuid = e.target.getAttribute('data-comment')
+  currentComment.value = allComments.value.find(comment => comment.uuid === uuid)
+  isCommentMenuOpen.value = true
+}
 const findCommentsAndStoreValues = () => {
-  const proseMirror = document.querySelector('.ProseMirror');
-  const comments = proseMirror?.querySelectorAll('span[data-comment]');
-  const tempComments: any[] = [];
+  const proseMirror = document.querySelector('.ProseMirror')
+  const comments = proseMirror?.querySelectorAll('span[data-comment]')
+  const tempComments: any[] = []
   if (!comments) {
-    allComments.value = [];
-    return;
+    allComments.value = []
+    return
   }
   comments.forEach((node) => {
-    const uuid = node.getAttribute('data-comment');
-    useEventListener(node,'click', () => {console.log('current-data-comment:',node.getAttribute('data-comment') )})    
-      tempComments.push({
-        uuid,
-      });
-    
-  });
-  allComments.value = tempComments;
-};
+    const uuid = node.getAttribute('data-comment')
+    useEventListener(node, 'click', setCurrentComment)
+    tempComments.push({
+      uuid,
+      comment: '',
+    })
+  })
+  allComments.value = tempComments
+}
+const openCommentMenu = () => {
+  isCommentMenuOpen.value = true
+  currentComment.value = allComments.value[allComments.value.length - 1]
+}
+const closeCommentMenu = () => {
+  isCommentMenuOpen.value = false
+}
+
+const updateComment = ({ uuid, comment }) => {
+  const idx = allComments.value.findIndex(comment => (comment.uuid === uuid))
+  allComments.value.splice(idx, 1, { uuid, comment })
+}
 const editor = useEditor({
   content: '',
   extensions: [
@@ -82,7 +110,15 @@ const editor = useEditor({
     ExternalVideo,
     MathBlock,
     Audio,
-    Comment
+    Comment,
+    // BubbleMenu.configure({
+    //   pluginKey: 'TipTapBubbleMenu',
+    //   element: document.querySelector('.bubbleMenu'),
+    // }),
+    // BubbleMenu.configure({
+    //   pluginKey: 'CommentBubbleMenu',
+    //   element: document.querySelector('.CommentBubbleMenu'),
+    // }),
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -90,7 +126,7 @@ const editor = useEditor({
 
     // send the content to an API here
     console.log('json:', json)
-    findCommentsAndStoreValues();
+    findCommentsAndStoreValues()
     /**
      **1)get all heading into headings array */
     const headings = []
@@ -111,7 +147,7 @@ const editor = useEditor({
           treeData = [...treeData, heading_1]
         }
           break
-        case 2:{
+        case 2: {
           const label = heading.content[0].text
           const heading_2 = {
             key: nanoid(),
@@ -141,7 +177,7 @@ const editor = useEditor({
           treeData.splice(index, 1, newHeading_1)
         }
           break
-        case 3:{
+        case 3: {
           const label = heading.content[0].text
           const heading_3 = {
             key: nanoid(),
@@ -176,9 +212,7 @@ const editor = useEditor({
     TOC.treeData = treeData
   },
 })
-watch(allComments, () => {
-  console.log('allComments:',allComments.value)
-})
+
 </script>
 
 <style lang="scss" scoped>
@@ -198,7 +232,7 @@ watch(allComments, () => {
   &:focus-visible {
     outline: none;
   }
-  & > *  {
+  & > * {
     margin-top: 0.75rem;
   }
 
@@ -242,7 +276,10 @@ watch(allComments, () => {
       z-index: 2;
       position: absolute;
       content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       background: rgba(200, 200, 255, 0.4);
       pointer-events: none;
     }
@@ -262,22 +299,22 @@ watch(allComments, () => {
     }
   }
   .tableWrapper {
-  padding: 1rem 0;
-  overflow-x: auto;
-}
+    padding: 1rem 0;
+    overflow-x: auto;
+  }
 
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize;
-}
+  .resize-cursor {
+    cursor: ew-resize;
+    cursor: col-resize;
+  }
   h1 {
-    @include h1
+    @include h1;
   }
   h2 {
-    @include h2
+    @include h2;
   }
   h3 {
-    @include h3
+    @include h3;
   }
 
   code {
@@ -303,7 +340,7 @@ watch(allComments, () => {
   img {
     max-width: 100%;
     &.ProseMirror-selectednode {
-      outline: 3px solid #68CEF8;
+      outline: 3px solid #68cef8;
     }
   }
 
@@ -317,6 +354,5 @@ watch(allComments, () => {
     border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
-
 }
 </style>

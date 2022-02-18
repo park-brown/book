@@ -1,5 +1,5 @@
 <template>
-  <bubble-menu v-if="props.editor" :editor="props.editor" class="bubbleMenu">
+  <bubble-menu v-if="props.editor" :should-show="()=> false" :editor="props.editor" class="bubbleMenu" :tippy-options="{ duration: 100, placement: 'bottom' }">
     <!--加粗-->
     <n-tooltip placement="top" trigger="hover">
       <template #trigger>
@@ -202,9 +202,9 @@
       <template #trigger>
         <n-button
           :bordered="false"
-          @click="setComment"
+          @click="OpenCommentBubbleMenu"
         >
-          <i-heroicons-outline-annotation />
+          <i-akar-icons-comment-add />
         </n-button>
       </template>
       <span class="subtitle-1"> 注释 </span>
@@ -212,13 +212,11 @@
   </bubble-menu>
 </template>
 <script lang="ts" setup>
-//  :class="{ 'is-active': editor.isActive('highlight', { color: '#ffc078' }) }"
 import { BubbleMenu } from '@tiptap/vue-3'
-import { useTextSelection } from '@vueuse/core'
-import {nanoid} from 'nanoid'
-const props = defineProps(['editor'])
+import { nanoid } from 'nanoid'
+const props = defineProps(['editor', 'isCommentMenuOpen'])
+const emits = defineEmits(['open:comment-menu'])
 const showLinkPopover = ref(false)
-const showCommentPopover = ref(false)
 const link = ref('')
 const setLink = () => {
   const url = link.value
@@ -254,15 +252,16 @@ const setLink = () => {
 }
 const count = ref(0)
 
-
 const setComment = () => {
-  props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
-  count.value++
-  props.editor.chain().focus().setComment({comment:null,uuid:nanoid()}).run()
+  // props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
+  // count.value++
+  // props.editor.chain().focus().setComment({ comment: null, uuid: nanoid() }).run()
 }
-
-
-
+const OpenCommentBubbleMenu = () => {
+  props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
+  props.editor.chain().focus().setComment({ uuid: nanoid(), comment: '' }).run()
+  emits('open:comment-menu')
+}
 </script>
 <style lang="scss" scoped>
 .linkPopOverContainer {

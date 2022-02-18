@@ -44,6 +44,7 @@ specifiers:
   prosemirror-state: ^1.3.4
   sass: ^1.45.0
   sass-loader: ^12.4.0
+  tippy.js: ^6.3.7
   typescript: ^4.5.2
   unplugin-auto-import: ^0.5.3
   unplugin-icons: ^0.12.23
@@ -87,6 +88,7 @@ dependencies:
   pinia: 2.0.9_typescript@4.5.2+vue@3.2.24
   pinia-plugin-persist: 0.0.93_vue@3.2.24
   prosemirror-state: 1.3.4
+  tippy.js: 6.3.7
   vue: 3.2.24
   vue-demi: 0.12.1_vue@3.2.24
   vue-mathjax-next: 0.0.4
