@@ -13,6 +13,7 @@
       @update:comment="updateComment"
       @delete:comment="deleteComment"
       @close:comment-menu="closeCommentMenu"
+      @hide:menu="handleHide"
     />
     <EditorContent :editor="editor" class="TipTapEditor" />
   </n-scrollbar>
@@ -74,7 +75,91 @@ const findCommentsAndStoreValues = () => {
     }
   })
 }
+const getTableOfContent = (json) => {
+  /**
+     **1)get all heading into headings array */
+  const headings = []
+  json.content.slice().forEach(item => item.type === 'heading' ? headings.push(item) : null)
 
+  /**
+     **2) transform flat headings array into nested tree data */
+  let treeData = []
+  headings.slice().forEach((heading) => {
+    switch (heading.attrs.level) {
+      case 1: {
+        const label = heading.content[0].text
+        const heading_1 = {
+          key: nanoid(),
+          label,
+          children: [],
+        }
+        treeData = [...treeData, heading_1]
+      }
+        break
+      case 2: {
+        const label = heading.content[0].text
+        const heading_2 = {
+          key: nanoid(),
+          label,
+          children: [],
+        }
+
+        /**
+           ** headings [...,1,1,2] */
+        /**
+           ** find the lastest heading-1  */
+        const lastHeading_1 = treeData[treeData.length - 1]
+        /**
+          ** find position of the last index heading 1 */
+        const index = treeData.findIndex(heading => heading === lastHeading_1)
+        /**
+           ** fill heading_2 object into the last heading_1 children array */
+        const newHeading_1 = {
+          ...lastHeading_1,
+          children: [
+            ...lastHeading_1.children,
+            heading_2,
+          ],
+        }
+        /**
+           ** replace old heading with new one */
+        treeData.splice(index, 1, newHeading_1)
+      }
+        break
+      case 3: {
+        const label = heading.content[0].text
+        const heading_3 = {
+          key: nanoid(),
+          label,
+        }
+        /**
+           ** headings [...,1,2,2,3] */
+
+        /**
+           ** find the lastest heading-2  */
+        const lastestHeading_1 = treeData[treeData.length - 1]
+        const lastestHeading_2 = lastestHeading_1.children[lastestHeading_1.children.length - 1]
+
+        /**
+          ** find position of the last index heading 1 */
+        const index1 = treeData.findIndex(heading => heading === lastestHeading_1)
+        /**
+          ** find position of the last index heading 2 */
+        const index2 = lastestHeading_1.children.findIndex(heading2 => heading2.key === lastestHeading_2.key)
+
+        /**
+           ** fill heading_3 object into the last heading_2 children array */
+
+        treeData[index1].children[index2].children.push(heading_3)
+      }
+
+        break
+      default:
+        break
+    }
+  })
+  TOC.treeData = treeData
+}
 const editor = useEditor({
   content: '',
   extensions: [
@@ -105,14 +190,6 @@ const editor = useEditor({
     MathBlock,
     Audio,
     Comment,
-    // BubbleMenu.configure({
-    //   pluginKey: 'TipTapBubbleMenu',
-    //   element: document.querySelector('.bubbleMenu'),
-    // }),
-    // BubbleMenu.configure({
-    //   pluginKey: 'CommentBubbleMenu',
-    //   element: document.querySelector('.CommentBubbleMenu'),
-    // }),
   ],
   // triggered on every change
   onUpdate: ({ editor }) => {
@@ -120,90 +197,8 @@ const editor = useEditor({
 
     // send the content to an API here
     console.log('json:', json)
+    getTableOfContent(json)
     findCommentsAndStoreValues()
-    /**
-     **1)get all heading into headings array */
-    const headings = []
-    json.content.slice().forEach(item => item.type === 'heading' ? headings.push(item) : null)
-
-    /**
-     **2) transform flat headings array into nested tree data */
-    let treeData = []
-    headings.slice().forEach((heading) => {
-      switch (heading.attrs.level) {
-        case 1: {
-          const label = heading.content[0].text
-          const heading_1 = {
-            key: nanoid(),
-            label,
-            children: [],
-          }
-          treeData = [...treeData, heading_1]
-        }
-          break
-        case 2: {
-          const label = heading.content[0].text
-          const heading_2 = {
-            key: nanoid(),
-            label,
-            children: [],
-          }
-
-          /**
-           ** headings [...,1,1,2] */
-          /**
-           ** find the lastest heading-1  */
-          const lastHeading_1 = treeData[treeData.length - 1]
-          /**
-          ** find position of the last index heading 1 */
-          const index = treeData.findIndex(heading => heading === lastHeading_1)
-          /**
-           ** fill heading_2 object into the last heading_1 children array */
-          const newHeading_1 = {
-            ...lastHeading_1,
-            children: [
-              ...lastHeading_1.children,
-              heading_2,
-            ],
-          }
-          /**
-           ** replace old heading with new one */
-          treeData.splice(index, 1, newHeading_1)
-        }
-          break
-        case 3: {
-          const label = heading.content[0].text
-          const heading_3 = {
-            key: nanoid(),
-            label,
-          }
-          /**
-           ** headings [...,1,2,2,3] */
-
-          /**
-           ** find the lastest heading-2  */
-          const lastestHeading_1 = treeData[treeData.length - 1]
-          const lastestHeading_2 = lastestHeading_1.children[lastestHeading_1.children.length - 1]
-
-          /**
-          ** find position of the last index heading 1 */
-          const index1 = treeData.findIndex(heading => heading === lastestHeading_1)
-          /**
-          ** find position of the last index heading 2 */
-          const index2 = lastestHeading_1.children.findIndex(heading2 => heading2.key === lastestHeading_2.key)
-
-          /**
-           ** fill heading_3 object into the last heading_2 children array */
-
-          treeData[index1].children[index2].children.push(heading_3)
-        }
-
-          break
-        default:
-          break
-      }
-    })
-    TOC.treeData = treeData
   },
 })
 const openCommentMenu = () => {
@@ -244,7 +239,9 @@ const deleteComment = ({ uuid }: CommentInstance) => {
   activeComment.value = null
   isCommentMenuOpen.value = false
 }
-
+const handleHide = () => {
+  isCommentMenuOpen.value = false
+}
 </script>
 
 <style lang="scss" scoped>

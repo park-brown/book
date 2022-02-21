@@ -4,11 +4,14 @@
     :editor="props.editor"
     class="CommentBubbleMenu"
     :tippy-options="{
-      duration: 100, placement: 'bottom', animation: 'fade', onMount() {
+      duration: 100, placement: 'bottom', animation: 'fade',
+      onMount() {
         isMounted = true
-      }, onHide() {
+      },
+      onHide() {
         isMounted = false
-      }
+        handleHide()
+      },
     }"
     plugin-key="CommentBubbleMenu"
   >
@@ -56,17 +59,20 @@
 <script lang="ts" setup>
 import { BubbleMenu } from '@tiptap/vue-3'
 const props = defineProps(['editor', 'activeComment', 'isCommentMenuOpen'])
-const emits = defineEmits(['update:comment', 'delete:comment', 'close:comment-menu'])
+const emits = defineEmits(['update:comment', 'delete:comment', 'close:comment-menu', 'hide:menu'])
 const comment = ref('')
 const isMounted = ref(false)
 const uuid = computed(() => (props.activeComment?.uuid))
-
 const updateComment = () => {
   emits('update:comment', { uuid: uuid.value, comment: comment.value })
 }
 const deleteComment = () => {
   emits('delete:comment', { uuid: uuid.value })
 }
+const handleHide = () => {
+  emits('hide:menu')
+}
+
 watch(isMounted, () => {
   isMounted.value ? comment.value = props.activeComment?.comment : comment.value = ''
 })
