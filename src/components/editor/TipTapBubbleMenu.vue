@@ -4,7 +4,7 @@
     :should-show="() => !!props.editor.state.selection.content().size && !props.isCommentMenuOpen "
     :editor="props.editor"
     class="bubbleMenu"
-    pluginKey='bubbleMenu'
+    plugin-key="bubbleMenu"
     :tippy-options="{ duration: 100, placement: 'bottom', animation: 'fade' }"
   >
     <!--加粗-->
@@ -254,13 +254,7 @@ const setLink = () => {
    ** close link popover after save**/
   showLinkPopover.value = false
 }
-const count = ref(0)
 
-const setComment = () => {
-  // props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
-  // count.value++
-  // props.editor.chain().focus().setComment({ comment: null, uuid: nanoid() }).run()
-}
 const OpenCommentBubbleMenu = () => {
   props.editor.chain().focus().setHighlight({ color: '#ffc078' }).run()
   props.editor.chain().focus().setComment({ uuid: nanoid(), comment: '' }).run()

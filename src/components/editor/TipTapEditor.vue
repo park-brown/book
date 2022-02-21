@@ -48,7 +48,7 @@ interface CommentInstance {
 }
 const TOC = useTableOfContent()
 const allComments = ref<CommentInstance[]>([])
-const activeComment = ref<CommentInstance>()
+const activeComment = ref<CommentInstance | null>()
 const isCommentMenuOpen = ref(false)
 const setActiveComment = (e) => {
   const uuid = e.target.getAttribute('data-comment')
@@ -210,9 +210,10 @@ const openCommentMenu = () => {
   isCommentMenuOpen.value = true
   activeComment.value = allComments.value[allComments.value.length - 1]
 }
+
 const closeCommentMenu = ({ uuid, comment }: CommentInstance) => {
   /**
- ** 1) if comment equals empty string, delete the active comment, set the highlight color to null */
+  ** 1) if comment equals empty string, delete the active comment, set the highlight color to null */
   if (comment === '') {
     editor?.value.chain().focus().unsetHighlight().run()
     editor?.value.chain().focus().unsetComment().run()
@@ -240,6 +241,7 @@ const deleteComment = ({ uuid }: CommentInstance) => {
   editor?.value.chain().focus().unsetHighlight().run()
   editor?.value.chain().focus().unsetComment().run()
   allComments.value.splice(idx, 1)
+  activeComment.value = null
   isCommentMenuOpen.value = false
 }
 
