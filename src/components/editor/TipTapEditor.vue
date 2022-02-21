@@ -1,19 +1,23 @@
 <template>
   <TipTapFixedMenu :editor="editor" />
   <n-scrollbar style="max-height: 75rem;" class="scrollbar">
-    <TipTapBubbleMenu :editor="editor" :is-comment-menu-open="isCommentMenuOpen" @open:comment-menu="openCommentMenu" />
+    <TipTapBubbleMenu
+      :editor="editor"
+      :is-comment-menu-open="isCommentMenuOpen"
+      @open:comment-menu="openCommentMenu"
+    />
     <CommentBubbleMenu
       :is-comment-menu-open="isCommentMenuOpen"
       :editor="editor"
-      :current-comment="currentComment"
+      :active-comment="activeComment"
       @update:comment="updateComment"
+      @delete:comment="deleteComment"
       @close:comment-menu="closeCommentMenu"
     />
     <EditorContent :editor="editor" class="TipTapEditor" />
   </n-scrollbar>
 </template>
 <script setup lang="ts">
-
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { nanoid } from 'nanoid'
 // import { generateJSON } from '@tiptap/html'
@@ -38,49 +42,39 @@ import { Comment } from './Comment'
 import { useTableOfContent } from '~/stores/TableOfContent'
 /**
  ** import over */
-const TOC = useTableOfContent()
-const allComments = ref<any[]>([])
-interface comment {
+interface CommentInstance {
   uuid: string
-  commment: string
+  comment: string
 }
-const currentComment = ref<comment>()
+const TOC = useTableOfContent()
+const allComments = ref<CommentInstance[]>([])
+const activeComment = ref<CommentInstance>()
 const isCommentMenuOpen = ref(false)
-const setCurrentComment = (e) => {
+const setActiveComment = (e) => {
   const uuid = e.target.getAttribute('data-comment')
-  currentComment.value = allComments.value.find(comment => comment.uuid === uuid)
+  activeComment.value = allComments.value.find(comment => comment.uuid === uuid)
   isCommentMenuOpen.value = true
 }
 const findCommentsAndStoreValues = () => {
   const proseMirror = document.querySelector('.ProseMirror')
   const comments = proseMirror?.querySelectorAll('span[data-comment]')
-  const tempComments: any[] = []
   if (!comments) {
     allComments.value = []
     return
   }
   comments.forEach((node) => {
+    useEventListener(node, 'mouseenter', setActiveComment)
     const uuid = node.getAttribute('data-comment')
-    useEventListener(node, 'click', setCurrentComment)
-    tempComments.push({
-      uuid,
-      comment: '',
-    })
+    const isExist = allComments.value.find(comment => comment?.uuid === uuid)
+    if (!isExist) {
+      allComments.value.push({
+        uuid,
+        comment: '',
+      })
+    }
   })
-  allComments.value = tempComments
-}
-const openCommentMenu = () => {
-  isCommentMenuOpen.value = true
-  currentComment.value = allComments.value[allComments.value.length - 1]
-}
-const closeCommentMenu = () => {
-  isCommentMenuOpen.value = false
 }
 
-const updateComment = ({ uuid, comment }) => {
-  const idx = allComments.value.findIndex(comment => (comment.uuid === uuid))
-  allComments.value.splice(idx, 1, { uuid, comment })
-}
 const editor = useEditor({
   content: '',
   extensions: [
@@ -212,6 +206,42 @@ const editor = useEditor({
     TOC.treeData = treeData
   },
 })
+const openCommentMenu = () => {
+  isCommentMenuOpen.value = true
+  activeComment.value = allComments.value[allComments.value.length - 1]
+}
+const closeCommentMenu = ({ uuid, comment }: CommentInstance) => {
+  /**
+ ** 1) if comment equals empty string, delete the active comment, set the highlight color to null */
+  if (comment === '') {
+    editor?.value.chain().focus().unsetHighlight().run()
+    editor?.value.chain().focus().unsetComment().run()
+    isCommentMenuOpen.value = false
+    return
+  }
+  isCommentMenuOpen.value = false
+}
+const updateComment = ({ uuid, comment }: CommentInstance) => {
+  /**
+   ** 1) if comment equals empty string, delete the active comment, set the highlight color to null */
+  if (comment === '') {
+    editor?.value.chain().focus().unsetHighlight().run()
+    editor?.value.chain().focus().unsetComment().run()
+    return
+  }
+  editor?.value.chain().focus().setComment({ uuid, comment }).run()
+  const idx = allComments.value.findIndex(comment => (comment.uuid === uuid))
+  allComments.value.splice(idx, 1, { uuid, comment })
+  activeComment.value = allComments.value[idx]
+  isCommentMenuOpen.value = false
+}
+const deleteComment = ({ uuid }: CommentInstance) => {
+  const idx = allComments.value.findIndex(comment => (comment.uuid === uuid))
+  editor?.value.chain().focus().unsetHighlight().run()
+  editor?.value.chain().focus().unsetComment().run()
+  allComments.value.splice(idx, 1)
+  isCommentMenuOpen.value = false
+}
 
 </script>
 

@@ -1,5 +1,12 @@
 <template>
-  <bubble-menu v-if="props.editor" :should-show="()=> false" :editor="props.editor" class="bubbleMenu" :tippy-options="{ duration: 100, placement: 'bottom' }">
+  <bubble-menu
+    v-if="props.editor"
+    :should-show="() => !!props.editor.state.selection.content().size && !props.isCommentMenuOpen "
+    :editor="props.editor"
+    class="bubbleMenu"
+    pluginKey='bubbleMenu'
+    :tippy-options="{ duration: 100, placement: 'bottom', animation: 'fade' }"
+  >
     <!--加粗-->
     <n-tooltip placement="top" trigger="hover">
       <template #trigger>
@@ -11,7 +18,7 @@
           <i-clarity-bold-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 加粗(Ctrl+B) </span>
+      <span class="subtitle-1">加粗(Ctrl+B)</span>
     </n-tooltip>
     <!--斜体-->
     <n-tooltip placement="top" trigger="hover">
@@ -24,7 +31,7 @@
           <i-clarity-italic-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 斜体(Ctrl+I) </span>
+      <span class="subtitle-1">斜体(Ctrl+I)</span>
     </n-tooltip>
     <!--删除线-->
     <n-tooltip placement="top" trigger="hover">
@@ -37,7 +44,7 @@
           <i-clarity-strikethrough-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 删除线(Ctrl+Shift+X) </span>
+      <span class="subtitle-1">删除线(Ctrl+Shift+X)</span>
     </n-tooltip>
     <!--下划线-->
     <n-tooltip placement="top" trigger="hover">
@@ -50,7 +57,7 @@
           <i-dashicons-editor-underline />
         </n-button>
       </template>
-      <span class="subtitle-1"> 下划线(Ctrl+U) </span>
+      <span class="subtitle-1">下划线(Ctrl+U)</span>
     </n-tooltip>
     <!--标题一-->
     <n-tooltip placement="top" trigger="hover">
@@ -63,7 +70,7 @@
           <i-gridicons-heading-h1 />
         </n-button>
       </template>
-      <span class="subtitle-1"> 标题一(Ctrl+Alt+1) </span>
+      <span class="subtitle-1">标题一(Ctrl+Alt+1)</span>
     </n-tooltip>
     <!--标题二-->
     <n-tooltip placement="top" trigger="hover">
@@ -76,7 +83,7 @@
           <i-gridicons-heading-h2 />
         </n-button>
       </template>
-      <span class="subtitle-1"> 标题二(Ctrl+Alt+2) </span>
+      <span class="subtitle-1">标题二(Ctrl+Alt+2)</span>
     </n-tooltip>
     <!--标题三-->
     <n-tooltip placement="top" trigger="hover">
@@ -89,7 +96,7 @@
           <i-gridicons-heading-h3 />
         </n-button>
       </template>
-      <span class="subtitle-1"> 标题三(Ctrl+Alt+3) </span>
+      <span class="subtitle-1">标题三(Ctrl+Alt+3)</span>
     </n-tooltip>
     <!--无序表单-->
     <n-tooltip placement="top" trigger="hover">
@@ -102,7 +109,7 @@
           <i-clarity-bullet-list-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 无序表单(Ctrl+Shift+8) </span>
+      <span class="subtitle-1">无序表单(Ctrl+Shift+8)</span>
     </n-tooltip>
     <!--有序表单-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -115,7 +122,7 @@
           <i-codicon-list-ordered />
         </n-button>
       </template>
-      <span class="subtitle-1"> 有序表单(Ctrl+Shift+7) </span>
+      <span class="subtitle-1">有序表单(Ctrl+Shift+7)</span>
     </n-tooltip>
     <!--添加链接-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -143,7 +150,7 @@
           </div>
         </n-popover>
       </template>
-      <span class="subtitle-1"> 链接 </span>
+      <span class="subtitle-1">链接</span>
     </n-tooltip>
     <!--块引用-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -156,7 +163,7 @@
           <i-clarity-block-quote-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 块引用 </span>
+      <span class="subtitle-1">块引用</span>
     </n-tooltip>
     <!--左对齐-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -169,7 +176,7 @@
           <i-clarity-align-left-text-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 左对齐(Ctrl+Shift+L) </span>
+      <span class="subtitle-1">左对齐(Ctrl+Shift+L)</span>
     </n-tooltip>
     <!--居中-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -182,7 +189,7 @@
           <i-cil-align-center />
         </n-button>
       </template>
-      <span class="subtitle-1"> 居中(Ctrl+Shift+E) </span>
+      <span class="subtitle-1">居中(Ctrl+Shift+E)</span>
     </n-tooltip>
     <!--右对齐-->
     <n-tooltip placement="bottom" trigger="hover">
@@ -195,19 +202,16 @@
           <i-clarity-align-right-text-line />
         </n-button>
       </template>
-      <span class="subtitle-1"> 右对齐(Ctrl+Shift+R) </span>
+      <span class="subtitle-1">右对齐(Ctrl+Shift+R)</span>
     </n-tooltip>
     <!--注释-->
     <n-tooltip placement="bottom" trigger="hover">
       <template #trigger>
-        <n-button
-          :bordered="false"
-          @click="OpenCommentBubbleMenu"
-        >
+        <n-button :bordered="false" @click="OpenCommentBubbleMenu">
           <i-akar-icons-comment-add />
         </n-button>
       </template>
-      <span class="subtitle-1"> 注释 </span>
+      <span class="subtitle-1">注释</span>
     </n-tooltip>
   </bubble-menu>
 </template>
@@ -272,5 +276,4 @@ const OpenCommentBubbleMenu = () => {
   justify-content: flex-start;
   gap: $spacing * 4;
 }
-
 </style>
