@@ -34,6 +34,7 @@ import { TableHeader } from '@tiptap/extension-table-header'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
 import { Highlight } from '@tiptap/extension-highlight'
+import { CustomHighLight } from './CustomHighLight'
 import { useEventListener } from '@vueuse/core'
 import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
@@ -184,7 +185,7 @@ const editor = useEditor({
     TableCell,
     EnhanceImage,
     TextStyle,
-    Highlight,
+    CustomHighLight,
     FontFamily,
     ExternalVideo,
     MathBlock,
