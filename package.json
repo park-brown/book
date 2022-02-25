@@ -42,6 +42,7 @@
     "vue-demi": "^0.12.1",
     "vue-mathjax-next": "^0.0.4",
     "vue-plyr": "^7.0.0",
+    "vue-query": "^1.19.1",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
