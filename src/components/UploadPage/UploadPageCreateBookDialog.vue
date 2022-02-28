@@ -1,13 +1,7 @@
 <template>
-  <n-button size="large" :bordered="false" class="manualUpload__btn" @click="goToCreateNewBook">
-    <i-akar-icons-book />
-    <n-p class="subtitle-1">
-      手动创建
-    </n-p>
-  </n-button>
-  <!-- <n-modal v-model:show="showModal">
+  <n-modal :show="props.showModal" transform-origin="center">
     <n-card
-      style="width: 600px;"
+      style="width: 960px"
       title="创建电子书"
       :bordered="false"
       size="huge"
@@ -15,110 +9,68 @@
       aria-modal="true"
     >
       <template #header-extra>
-        <n-button @click="showModal = false">
-          <template #icon>
-            <i-bi-x />
-          </template>
+        <n-button size="small" @click="closeModal">
+          <i-clarity-close-line />
         </n-button>
       </template>
-      <div class="ModalContent">
-        <n-space vertical>
-          <n-input v-model:value="title" type="text" placeholder="请输入标题" />
-        </n-space>
-      </div>
-      <template #footer>
-        <div class="footerAction">
-          <n-button
-            type="info"
-            :disabled="title === '' || isFetching === true"
-            @click="handleConfirm"
-          >
-            确定
-          </n-button>
-          <n-button type="error" @click="showModal = false">
-            取消
-          </n-button>
+      <!-- modal content -->
+      <n-card :bordered="false">
+        <div class="cardContent">
+          <div class="drapDrop">
+            <n-upload>
+              <n-upload-dragger>
+                <i-ic-sharp-file-upload style="width:9.6rem;height:9.6rem" />
+                <n-p depth="3" style="margin: 8px 0 0 0">
+                  拖放要上传的文件
+                </n-p>
+                <n-p depth="3" style="margin: 8px 0 0 0">
+                  您的文件在发布之前将处于私享状态。
+                </n-p>
+              </n-upload-dragger>
+            </n-upload>
+          </div>
+          <div class="manualCreate">
+            <n-button size="small" type="success" @click="openDescModal">
+              手动创建
+            </n-button>
+          </div>
         </div>
+      </n-card>
+      <template #footer>
+        <n-p depth="3" style="margin: 8px 0 0 0">
+          1.请勿侵犯他人的版权或隐私权
+        </n-p>
+        <n-p depth="3" style="margin: 8px 0 0 0">
+          2.您的文件必须小于50 MB,并且页数不能超过400页；
+        </n-p>
       </template>
     </n-card>
-  </n-modal> -->
+  </n-modal>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-// import { useMessage } from 'naive-ui'
 
-// const insertBookInfoBaseUrl = import.meta.env.VITE_INSERTBOOKINFO_BASEURL
-const router = useRouter()
-// const message = useMessage()
-const goToCreateNewBook = () => {
-  router.push('/createNewBook')
+interface Props {
+  showModal: boolean
 }
-// const { isFetching, data, execute, post } = useFetch(insertBookInfoBaseUrl, {
-//   immediate: false,
-// }).json()
-// const title = ref<string>('')
-//* *最多3s一次 */
-// const debouncedFn = useDebounceFn(() => {
-//   const uploadData = new FormData()
-//   uploadData.append('bookName', title.value)
-//   post(uploadData)
-//   execute()
-// }, 3000)
-// const handleConfirm = () => {
-//   debouncedFn()
-// }
-// watch(data, () => {
-//   //* *success case */
-//   if (data.value.code === '200') {
-//     message.success('创建成功，进入编辑页面',
-//       { duration: 3000 })
-//     bookStore.value.bookId = data.value.data.bookId
-//     bookStore.value.bookName = data.value.data.bookName
-//     // bookStore.value.bookContent = [{ key: Math.random() * Date.now(), page: 1, content: '' }]
-//     setTimeout(() => {
-//       goToCreateNewBook()
-//     }, 1000)
-//   }
-//   else {
-//     //* *reject case */
-//     message.error('创建失败，请重试',
-//       { duration: 3000 })
-//   }
-// })
-// const showModal = ref(false)
-//* life cycle */
 
+const props = defineProps<Props>()
+const emits = defineEmits(['close:modal', 'open:descModal'])
+const closeModal = () => {
+  emits('close:modal')
+}
+const openDescModal = () => {
+  emits('open:descModal')
+}
 </script>
 <style lang="scss" scoped>
-.manualUpload__btn {
-  color: $red-400;
-  border: 1px solid $red-400;
-  border-radius: $border-radius;
-  box-shadow: $shadow-1;
-  transition: all $duration-standard $easing-easeInOut;
-  &:hover,
-  &:focus,
-  &:active {
-    color: $red-600;
-    border: 1px solid $red-600;
-    box-shadow: $shadow-2;
-    transform: translateY($spacing * -0.5);
-  }
-  & ::v-deep(.n-button__content) {
-    & > * {
-      color: currentColor;
-    }
-    gap: $spacing * 3;
-  }
-  & ::v-deep(.n-base-wave) {
-    display: none;
-  }
-}
-.footerAction {
-  width: 100%;
-  display: flex;
+.cardContent {
+  width:100%;
+  max-width:50rem;
+  margin:0 auto;
+  display:flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: $spacing * 4;
+  justify-content: flex-start;
+  gap:$spacing*8;
 }
 </style>

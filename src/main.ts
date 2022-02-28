@@ -8,13 +8,15 @@ import VuePlyr from 'vue-plyr'
 import ThemeProvider from './ThemeProvider.vue'
 import '~/sass/_reset.scss'
 import 'vue-plyr/dist/vue-plyr.css'
+/**
+ ** import over */
 const pinia = createPinia()
-
 const app = createApp(ThemeProvider)
 const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
 app.use(router)
 app.use(pinia)
 app.use(VueMathjax)

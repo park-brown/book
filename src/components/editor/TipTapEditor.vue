@@ -33,9 +33,9 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
-import { Highlight } from '@tiptap/extension-highlight'
-import { CustomHighLight } from './CustomHighLight'
 import { useEventListener } from '@vueuse/core'
+import { TreeOption } from 'naive-ui'
+import { CustomHighLight } from './CustomHighLight'
 import { EnhanceImage } from './enhanceImage'
 import ExternalVideo from './externalVideo'
 import MathBlock from './Math'
@@ -52,7 +52,7 @@ const TOC = useTableOfContent()
 const allComments = ref<CommentInstance[]>([])
 const activeComment = ref<CommentInstance | null>()
 const isCommentMenuOpen = ref(false)
-const setActiveComment = (e) => {
+const setActiveComment = (e: any) => {
   const uuid = e.target.getAttribute('data-comment')
   activeComment.value = allComments.value.find(comment => comment.uuid === uuid)
   isCommentMenuOpen.value = true
@@ -76,15 +76,16 @@ const findCommentsAndStoreValues = () => {
     }
   })
 }
+
 const getTableOfContent = (json) => {
   /**
      **1)get all heading into headings array */
-  const headings = []
+  const headings: any[] = []
   json.content.slice().forEach(item => item.type === 'heading' ? headings.push(item) : null)
 
   /**
      **2) transform flat headings array into nested tree data */
-  let treeData = []
+  let treeData: TreeOption[] = []
   headings.slice().forEach((heading) => {
     switch (heading.attrs.level) {
       case 1: {

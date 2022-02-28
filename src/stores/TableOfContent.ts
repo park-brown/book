@@ -1,8 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-
+import { TreeOption } from 'naive-ui'
+interface TOC {
+  treeData: TreeOption[] | []
+}
 export const useTableOfContent = defineStore({
   id: 'TOC',
-  state: () => ({
+  state: (): TOC => ({
     treeData: [],
   }),
 

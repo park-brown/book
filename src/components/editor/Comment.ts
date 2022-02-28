@@ -3,7 +3,7 @@ import { getMarkRange, Mark, mergeAttributes } from '@tiptap/vue-3'
 import { Plugin, TextSelection } from 'prosemirror-state'
 
 export interface CommentOptions {
-  HTMLAttributes: Record<string, any>,
+  HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
@@ -27,7 +27,7 @@ declare module '@tiptap/core' {
 
 export const Comment = Mark.create<CommentOptions>({
   name: 'comment',
-  inclusive:false,
+  inclusive: false,
   spanning: false,
   addOptions() {
     return {
